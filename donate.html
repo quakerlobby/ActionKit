@@ -74,7 +74,7 @@
                         <tr>
                             <td class="ak-product-details">
                                 <div class="ak-product-name">{{ product.name }}</div>
-                                
+                                {% if product.desc %}<div class="ak-product-description">{{ product.desc }}</div>{% endif %}
                             </td>
                             <td class="ak-product-amount">
                                 <span id="product_{{ product.id }}_price" data-price="{{ product.price }}">
@@ -95,7 +95,6 @@
                             	<span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak_product_subtotal_{{ product.id }}"></span>
                             </td>
                         </tr>
-{% if product.desc %}<tr><td colspan="4"><div class="ak-product-description">{{ product.desc }}</div></td></tr>{% endif %}
                         {% endfor %}
 
                         </tbody>
