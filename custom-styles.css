@@ -7,10 +7,13 @@
 @media (max-width:479px) {
 .ak-grid-col-4-of-12,.ak-grid-col-8-of-12, .ak-grid-col-6-of-12 {float:none; width:100%}
 }
-#ak-donation_comment {width:100%; height:3em; solid 1px #ccc;}
+#ak-donation_comment {width:100%; height:3em; 1px solid #ccc;}
 
 label.ak-survey-question-label {font-weight:bold; margin-top:2em;}
 .ak-field-box div:first-child label.ak-survey-question-label {margin-top:0;}
+
+/************PRODUCTS*********************/
+#ak-product-list table tbody tr td .ak-product-description { border-bottom: solid 1px #ccc; }
 
 .ak-product-amount input[type="checkbox"] {
     display: none;
