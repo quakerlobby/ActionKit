@@ -96,7 +96,7 @@
                             	<span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak_product_subtotal_{{ product.id }}"></span>
                             </td>
                         </tr>
-{% if product.desc %}<tr><td colspan="4"><div class="ak-product-description">{{ product.desc }}</div></td></tr>{% endif %}
+{% if product.desc %}<tr><td colspan="4" style="padding-bottom: 10px; margin-bottom: 10px; border-bottom: solid 1px #ccc;"><div class="ak-product-description">{{ product.desc }}</div></td></tr>{% endif %}
                         {% endfor %}
 
                         </tbody>
