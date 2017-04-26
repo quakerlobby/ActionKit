@@ -12,6 +12,9 @@
 label.ak-survey-question-label {font-weight:bold; margin-top:2em;}
 .ak-field-box div:first-child label.ak-survey-question-label {margin-top:0;}
 
+/************PRODUCTS*********************/
+#ak-product-list table tbody tr td { border-bottom: solid 1px #ccc; }
+
 .ak-product-amount input[type="checkbox"] {
     display: none;
 }
