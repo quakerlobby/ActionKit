@@ -1,0 +1,58 @@
+{% extends "./wrapper.html" %}{% load actionkit_tags %}
+
+{% block content %}
+
+<div class="ak-grid-row">
+    <div class="ak-grid-col-12-of-12">
+        <h2>{{ page.title }}</h2>
+    </div>
+</div>
+
+<div class="ak-grid-row">
+    <div class="ak-grid-col-7-of-12" style="float:right;">
+
+        <div id="ak-petition-story">
+            {% if page.custom_fields.featured_image %}
+            <img class="ak-featured-img" src="{{page.custom_fields.featured_image}}">
+            {% endif %}
+            {% autoescape off %}
+                <div>{% include_tmpl form.about_text %}</div>
+            {% endautoescape %}
+        </div>
+    </div>
+    <div class="ak-grid-col-5-of-12">
+        <form class="ak-form" name="act" method="POST" action="/act/" accept-charset="utf-8">
+
+            {% include "./progress_meter.html" %}
+
+            <input type="hidden" name="page" value="{{ page.name }}">
+
+            <div class="statement-text-wrapper ak-field-box ak-field-box-borderless">
+                <!--<h3>Sign the petition</h3>-->
+                {% if form.statement_leadin %}
+                    <p class="leadin">
+                        {% include_tmpl form.statement_leadin %}
+                    </p>
+                {% endif %}
+                
+                <div class="ak-margin-bottom-1">
+                    {% include_tmpl form.statement_text %}
+                </div>
+
+                <div id="petition-form" class="ak-labels-overlaid ak-styled-fields">
+                    {% include "./user_form_wrapper.html" %}
+                    <div class="ak-field">
+                        <label for="id_comment">Comment</label>
+                        <textarea id="id_comment" name="action_comment"></textarea>
+                    </div>
+                    <!--{% include "./inline_tellafriend.html" %}-->
+                    <button type="submit" class="ak-styled-submit-button">{% if page.custom_fields.button_text %}{{ page.custom_fields.button_text }}{% else %}Submit{% endif %}</button>
+                </div>
+
+            </div>  
+
+        </form>
+    </div>
+</div>
+
+{% endblock %}

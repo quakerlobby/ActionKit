@@ -1,0 +1,65 @@
+<script language="javascript">
+    function showAmountChange(profile_id) {
+        $('#change_profile_' + profile_id + ' .action_form .card_num input').val('');
+        $('#change_profile_' + profile_id + ' .card_num').hide();
+        $('#change_profile_' + profile_id + ' .amount').show();
+        $('#change_profile_' + profile_id).show();
+        return false
+    }
+
+    function showCreditCardChange(profile_id) {
+        var form = $('#change_profile_' + profile_id + ' .action_form').get(0);
+        form.amount.value = form.previous_amount.value;
+        $('#change_profile_' + profile_id + ' .amount').hide();
+        $('#change_profile_' + profile_id + ' .card_num').show();
+        $('#change_profile_' + profile_id).show();
+        return false
+    }
+
+    $(document).ready(function() {
+        var match = /profile_id=(\d+)/.exec(window.location.search);
+        if (match) {
+            profile_id = match[1];
+            if (/error_card_num/.test(window.location.search)) {
+                showCreditCardChange(profile_id);
+            } else if (/amount=/.test(window.location.search)) {
+                showAmountChange(profile_id);
+            }
+        }
+    })
+</script>
+
+<table class="ak-key-value-table">
+	<tr>
+		<th>Current monthly donation:</th>
+		<td>{{ profile.amt }} <a href="#" onclick="return showAmountChange('{{ profile.id }}');">Change amount</a></td>
+	</tr>
+	<tr>
+		<th>Created:</th>
+		<td>{{ profile.created_at|date }}</td>
+	</tr>
+	{% if profile.order.payment_method == "cc" %}
+	<tr>
+		<th>Credit card ending in:</th>
+		<td>{{ profile.card_num }} <a href="#" onclick="return showCreditCardChange('{{ profile.id }}');">Change credit card information</a>
+		</td> 
+	</tr>
+	<tr>
+		<th>Credit card expiration date:</th>
+		<td>{{ profile.display_expiration_date }}</td>
+	</tr>
+	{% endif %}
+	<tr>
+		<th>Contact information:</th>
+		<td>
+            <div class="ak-full-address">{{ profile.user.full_address }}</div>
+            <a href="/me/update/">Update contact information</a></td> 
+	</tr>
+
+</table>
+
+<p>
+    Your next payment of <strong>{{ profile.amt }}</strong> 
+    will be charged on <strong>{{ profile.next_payment_date|date }}</strong>. 
+    <a href="/cms/pledge/cancel/monthly/">Cancel</a>
+</p>

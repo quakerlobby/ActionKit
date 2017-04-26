@@ -1,0 +1,59 @@
+{% extends "./wrapper.html" %}{% load actionkit_tags %}
+
+{% block content %}
+
+<div class="ak-grid-row">
+    <div class="ak-grid-col-12-of-12">
+        <h2>{{ page.title }}</h2>
+    </div>
+</div>
+
+<form class="action_form" name="act" method="POST" action="/act/" accept-charset="utf-8">
+    
+    <div class="ak-grid-row">
+        <div id="signup-story" class="ak-grid-col-6-of-12">
+
+            {% if page.custom_fields.featured_image %}
+            <img class="ak-featured-img" src="{{page.custom_fields.featured_image}}">
+            {% endif %}
+
+            {% autoescape off %}
+                <div class="ak-abovefold">
+                    {% include_tmpl form.introduction_text %}
+                </div>
+            {% endautoescape %}
+<div class="ak-mobile-lead"></div>
+
+
+
+            
+
+            {% include "./progress_meter.html" %}
+        </div>
+
+        <div id="signup-form" class="ak-grid-col-6-of-12 ak-styled-fields  ak-labels-overlaid">
+
+            <input type="hidden" name="page" value="{{ page.name }}">
+
+            {% include "./user_form_wrapper.html" %}
+{% if page.custom_fields.all_lists %}
+<h3>What do you want to hear from us?</h3>
+<input type="checkbox" name="lists" value="1" checked /> Action Alerts (weekly)<br />
+<input type="checkbox" name="lists" value="5" /> Updates & News (weekly)<br />
+<h3>What issues do you care about?</h3>
+<input type="checkbox" name="lists" value="8" /> Environment & Energy<br />
+<input type="checkbox" name="lists" value="10" /> Immigrants & Refugees<br />
+<input type="checkbox" name="lists" value="11" /> Native Americans<br />
+<input type="checkbox" name="lists" value="15" /> Foreign Policy<br />
+<h3>Anything else?</h3>
+<input type="checkbox" name="lists" value="19" /> Quaker Newsletter (monthly)<br />
+<input type="checkbox" name="lists" value="16" /> Young Adult Programs<br />
+{% endif %}
+
+            <button type="submit" class="full">Sign Up</button>
+
+        </div>
+    </div>
+</form>
+
+{% endblock %}

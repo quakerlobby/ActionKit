@@ -1,0 +1,65 @@
+{% extends "./wrapper.html" %}{% load actionkit_tags %}
+
+{% block content %}
+
+<form class="ak-form" name="act" method="POST" action="/act/" accept-charset="utf-8">
+    <input type="hidden" name="page" value="{{ page.name }}">
+
+    <div class="ak-grid-row">
+        <div class="ak-grid-col-12-of-12">
+            <h2>{{ page.title }}</h2>
+        </div>
+    </div>
+
+    <div class="ak-grid-row">
+        <div class="ak-grid-col-8-of-12">
+
+            <div id="letter-story">
+
+                {% autoescape off %}
+                <div>{% include_tmpl form.about_text %}</div>
+                {% endautoescape %}
+
+                {% if form.statement_leadin %}
+                {% autoescape off %}
+                <div class="ak-p-before-textarea ak-margin-top-3">
+                	{% include_tmpl form.statement_leadin %}
+                </div>
+                {% endautoescape %}
+                {% endif %}
+
+                <textarea id="id_comment" name="action_comment" style="height:10em; width:95%;" class="letter-area">{% include_tmpl form.letter_text escaped %}</textarea>
+
+            </div>
+
+        </div> 
+
+        <div class="ak-grid-col-4-of-12">
+            {% include "./progress_meter.html" %}
+
+            {% if page.custom_fields.featured_image %}
+            <img class="ak-featured-img" src="{{page.custom_fields.featured_image}}">
+            {% endif %}
+
+            <div id="letter-form" class="ak-styled-fields ak-labels-overlaid ak-field-box ak-field-box-borderless">
+
+                <h3>{% if page.custom_fields.contact_us %}Get in Touch{% else %}Send the letter{% endif %}</h3>
+
+                {% include "./user_form_wrapper.html" %}
+
+                {% include "./inline_tellafriend.html" %}
+<inputtype="hidden" name="opt_in" value="1" />
+<input type="checkbox" id="id_list_1" name="lists" value="1" />
+<label for="id_list_1" style="padding-left:30px;padding-top:0;"> Send me action alerts.</label>
+
+                <button type="submit" class="ak-styled-submit-button">Send Letter</button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</form>
+
+{% endblock %}

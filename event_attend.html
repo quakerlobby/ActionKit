@@ -1,0 +1,267 @@
+{% extends "./wrapper.html" %}{% load actionkit_tags %}
+
+
+
+{% block css_additions %}
+
+{% endblock %}
+
+
+
+{% block content %}
+
+
+
+{% if event.is_open_for_signup or update or event.is_in_past %}
+
+
+
+    <form id="id_act" class="ak-form ak-styled-fields" name="act" method="POST" action="{% if update %}/update_action/{% else %}/act/{% endif %}" accept-charset="utf-8">
+
+
+
+        <input type="hidden" name="page" id="id_page" value="{{ page.name }}">
+
+        <input type="hidden" name="event_id" value="{{ args.event_id }}">
+
+
+
+        <div class="ak-grid-row">
+
+            <div class="ak-grid-col-10-of-12">
+
+                {% if not update %}
+
+                    <h2>{{ page.title }}</h2>
+
+                    {{ form.signup_text|safe }}
+
+                {% else %}
+
+                    <h2>Update Signup Information</h2>
+
+                {% endif %}
+
+            </div>
+
+            <div class="ak-grid-col-2-of-12 ak-pull-right">
+
+            	{% if page.custom_fields.featured_image %}
+
+                	<img class="ak-featured-img" src="{{page.custom_fields.featured_image}}">
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+
+        <div class="ak-grid-row">
+
+            <div class="ak-grid-col-6-of-12 ak-margin-top-1">
+
+    
+
+
+
+
+
+                <div id="event-search-results">
+
+                    <!-- If you're embedding this page on your own site, remove everything from here... -->
+
+                    {% with 1 as hide_map %}
+
+                    {% include "./event_search_results.html" %}
+
+                    {% endwith %}
+
+                    <!-- ...to here -->
+
+                </div>
+
+                <script type="text/javascript">
+
+                    var have_events = $('#id_have_events').val(); 
+
+                    if ( ! have_events ) {
+
+                        var args = actionkit.utils.getArgs();
+
+                        actionkit.forms.eventSearch(null, {
+
+                            event_id: args.event_id, 
+
+                            zip: args.zip, 
+
+                            page: $('#id_page').val()
+
+                        });
+
+                    }
+
+                </script>
+
+
+
+                <ul class="compact" id="ak-errors"></ul>
+
+
+
+
+
+            </div>
+
+
+
+            <div class="ak-grid-col-6-of-12">
+{% if event.is_in_past %}
+<h3>Sorry, it's too late to sign up for this event.</h3>
+{% else %}
+            		<h3>RSVP to attend this event</h3>
+
+            	    <div id="event-attend-form" class="ak-errs-below">
+
+                    <div class="ak-labels-overlaid">
+
+                        {% if not update %}
+
+                        {% include "./user_form_wrapper.html" %}
+{% if page.custom_fields.conference_call %}<div class="ak-field">
+                        <label for="id_comment">Do you have questions for our speakers?</label>
+                        <textarea id="id_comment" name="action_questions"></textarea>
+                    </div>{% endif %}
+                        {% else %}
+
+                        <div id="user-info">
+
+                            {% include "./user_form_wrapper.html" %}
+{% if page.custom_fields.conference_call %}<div class="ak-field">
+                        <label for="id_comment">Do you have questions for our speakers?</label>
+                        <textarea id="id_comment" name="action_questions"></textarea>
+                    </div>{% endif %}
+
+
+                            <script type="text/javascript">
+
+                            $('#user-info input[name=email]').attr('disabled','disabled');
+
+                            </script>
+
+                            <!-- If they want to "update email", they should do a new signup instead. -->
+
+                            <p>Need to sign up with another email address?  <a href="?" onclick="window.actionkit.args = {}; return actionkit.forms.logOut()">Click here.</a></p>
+
+                        </div>
+
+                        {% endif %}
+
+
+
+                    </div>
+
+            
+
+                    {% if form.ground_rules|is_nonblank and not update %}
+
+                        <p>
+
+                            <input id="id_event_signup_ground_rules" type="checkbox" name="event_signup_ground_rules" value="1">
+
+                            <label class="cb-label" for="id_event_signup_ground_rules">
+
+                                <strong>Required:</strong>  
+
+                                I agree to <a href="#" onclick="$('#id_ground_rules_text').show(); $(this).before(this.innerHTML + ' (below)').hide(); return false;">the rules</a> for signing up for an event.
+
+                            </label>
+
+                        </p>
+
+                        <blockquote id="id_ground_rules_text" class="nojs">
+
+                            <div class="strong">Event ground rules:</div>
+
+                            {% include_tmpl form.ground_rules %}
+
+                        </blockquote>
+
+                    {% else %}
+
+                        <input type="hidden" name="event_signup_ground_rules" value="1">
+
+                    {% endif %}
+
+
+
+                    <button type="submit" class="ak-styled-submit-button">{% if update %}Update signup{% else %}Sign up for event{% endif %}</button>
+{% endif %}
+                </div><!--event-attend-form-->
+
+                
+
+           
+
+            </div>
+
+        </div>
+
+    </form>
+
+    
+
+{% else %}
+
+
+
+    <div class="ak-grid-row">
+
+        <div class="ak-grid-col-6-of-12">
+
+            {% if event.is_inactive or event.is_full or event.is_awaiting_confirmation %}
+
+                {% if event.is_inactive %}
+
+                    <h2>Sorry, this event was cancelled.</h2>
+
+                {% endif %}
+
+                {% if event.is_full %}
+
+                    <h2>Sorry, this event is full.</h2>
+
+                {% endif %}
+
+                {% if event.is_awaiting_confirmation %}
+
+                    <h2>Sorry, the event host has not yet confirmed this event.</h2>
+
+                {% endif %}
+
+            {% else %}
+
+                <h2>Sorry, this event isn't available for signup.</h2>
+
+            {% endif %}
+
+            <div>
+
+                <a href="/event/{{ campaign.local_name }}/?akid={{args.akid}}&zip={{args.zip}}">Search for another event</a>
+
+            </div>
+
+		
+
+        </div>
+
+    </div><!--grid-row-->
+
+
+
+{% endif %}
+
+
+
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends "./wrapper.html" %}
+{% load actionkit_tags %}
+
+{% block content %}
+
+<div class="ak-grid-row">
+    <div class="ak-grid-col-12-of-12">
+        <h2>{{ page.title }}</h2>
+    </div>
+</div>
+
+{% if action %}
+<div class="ak-grid-row">
+    <div class="ak-grid-col-12-of-12">
+        <h3 class="thanks">Thanks for making a whipcount call!</h3>
+        <p>We've noted that {% for contact in action.called.all %}{{ contact.target.title_last }} is {{ contact.response }}{% endfor %}!</p>
+        <p>{% include_tmpl form.thank_you_text %}</p>
+    </div>
+</div>
+{% endif %}
+
+<div class="ak-grid-row">
+    <div class="ak-grid-col-8-of-12 last ak-styled-description ak-ak-pull-right ak-mobile-flatten">
+        {% autoescape off %}
+        {% include_tmpl form.introduction_text %}
+        {% endautoescape %}
+    </div>
+    <div class="ak-grid-col-4-of-12">
+        {% if page.custom_fields.featured_image %}
+        <img class="ak-featured-img" src="{{page.custom_fields.featured_image}}">
+        {% endif %}
+        {% include "./progress_meter.html" %}
+    </div>
+</div>
+
+{% if not target %}
+    <div class="ak-grid-row">
+        <div class="ak-grid-col-12-of-12">
+            {% include "./whipcount_results.html" %}
+        </div>
+    </div>
+{% else %}
+
+    <form class="ak-form whipcount" name="act" method="POST" action="/act/" accept-charset="utf-8">
+        <div class="ak-grid-row">
+            <ul id="ak-errors"></ul>
+
+            <div id="who_to_call" class="ak-grid-col-4-of-12">
+                <div>
+                    <h3>
+                        <label class="ak-step-label" for="{{ target.id }}">
+                            <div class="ak-step-number">1</div> Review Script 
+                        </label>
+                    </h3>
+
+                    <div id="what_to_say"></div>
+                    <script type="text/ak-template" for="what_to_say">
+
+                        <div class="ak-quote">
+                            {% include_tmpl form.script_text %}
+                        </div>
+                    </script>
+                </div>
+            </div>
+
+            <div id="response" class="ak-styled-fields ak-grid-col-4-of-12">
+                <h3>
+                    <label class="ak-step-label">
+                        <div class="ak-step-number">2</div> Make the call
+                    </label>
+                </h3>
+                <div class="ak-whipcount-callbox">
+                    <div class="ak-whipcount-boxhead">
+                        <div class="ak-target-name">{{ target.title_full }}:</div>
+                        <div class="ak-target-phone">{{ target.phone }}</div>
+                    </div>
+                    <div class="ak-whipcount-boxbody">
+                        <label for="response-{{target.id}}">What is {{ target.title_full }}'s stance on this issue?</label>
+                        <ul>
+                            <li>
+                                <label for="uncommitted-{{ target.id }}"><input type="radio" name="response-{{ target.id }}" value="uncommitted" id="uncommitted-{{ target.id }}"> Uncommitted/Did not answer</label>
+                            </li>
+                            <li>
+                                <label for="supportive-{{ target.id }}"><input type="radio" name="response-{{ target.id }}" value="supportive" id="supportive-{{ target.id }}"> Supportive of our position</label>
+                            </li>
+                            <li>
+                                <label for="opposed-{{ target.id }}"><input type="radio" name="response-{{ target.id }}" value="opposed" id="opposed-{{ target.id }}"> Opposed to our position</label>
+                            </li>
+                            <li>
+                                <label for="message-{{ target.id }}"><input type="radio" name="response-{{ target.id }}" value="message" id="message-{{ target.id }}"> Left a message</label>
+                            </li>
+                        </ul>
+                        <input type="hidden" name="required" value="response-{{ target.id }}">
+                        <input type="hidden" name="error_response-{{target.id}}:missing" value="Please let us know what {{ target.title_last }} responded!">
+                    </div>
+                </div>
+            </div>
+
+            <div class="ak-grid-col-4-of-12">
+                <h3>
+                    <label class="ak-step-label">
+                        <div class="ak-step-number">3</div> Report the call
+                    </label>
+                </h3>
+                <div class="ak-labels-overlaid ak-errs-below ak-styled-fields">
+                    {% include "./user_form_wrapper.html" %}
+
+                    <div id="ak-survey_question"></div>
+
+                    {% if form.survey_question_text %}
+                    <script type="text/ak-template" for="ak-survey_question">
+                        {% autoescape off %}
+                        <label for="id_action_survey">{% filter striptags %}{% include_tmpl form.survey_question_text %}{% endfilter %}</label>
+                        {% endautoescape %}
+                        <textarea id="id_action_survey" name="action_survey" style="height: 100px"></textarea></p>
+                    </script>
+                    {% endif %}
+                </div>
+
+                <div style="clear: both;">
+                    <button type="submit" class="ak-styled-submit-button">Submit</button>
+                </div>
+            </div>
+
+            <input type="hidden" name="status" value="whipcount">
+            <input type="hidden" name="page" value="{{ page.name }}">
+        </form>
+    </div>
+{% endif %}
+{% endblock %}

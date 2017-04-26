@@ -1,0 +1,51 @@
+<div id="ak-whipcount-targets">
+    {% for group in target_groups %}
+    <h3>{{ group.name }}</h3>
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <th>Name</th>
+                <th>State</th>
+                <th>District/Seat</th>
+                <th>Calls Reported</th>
+                <th>Stance</th>
+            </thead>
+            <tbody>
+                {% for target in group.targets %}
+                <tr class="ak-target-{{ target.stance.view }}">
+                    <td>
+                        <a href="?target={{ target.resource_uri }}&amp;akid={{ user.token }}&amp;source={{ args.source }}&amp;referring_akid={{ args.referring_akid }}">{{ target.title_last }}</a>
+                    </td>
+                    <td>
+                        {{ target.state }}
+                    </td>
+                    <td>
+                        {{ target.us_district }}{{ target.seat }}
+                    </td>
+                    <td>
+                        {{ target.stance.calls }}
+                    </td>
+                    <td>
+                        {% if target.stance.view %} 
+                            {% if target.stance.view == 'supportive' %} 
+                                <div class="ak-whipcount-icon"><img src="/media/modern/stance-supportive.svg"></div> <span class="ak-target-stance">{{ target.stance.view|title}}</span>
+                            {% endif %}
+                            {% if target.stance.view == 'opposed' %} 
+                                <div class="ak-whipcount-icon"><img src="/media/modern/stance-opposed.svg"></div> <span class="ak-target-stance">{{ target.stance.view|title}}</span>
+                            {% endif %}
+                        {% else %} 
+                            <div class="ak-whipcount-icon"><img src="/media/modern/stance-unknown.svg"></div> Unknown 
+                        {% endif %} 
+                    </td>
+                    <td> 
+                        {% if not target.stance.view %}  
+                        <a href="?target={{ target.resource_uri }}&amp;akid={{ user.token }}&amp;source={{ args.source }}&amp;referring_akid={{ args.referring_akid }}" class="ak-styled-button call-button">Call</a> 
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endfor %}
+</div>

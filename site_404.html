@@ -1,0 +1,207 @@
+{% load actionkit_tags %}
+<!DOCTYPE html>
+<html lang="{{page.lang.iso_code|default:'en'}}"{% if page.lang.is_rtl %} dir="rtl"{% endif %}>
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{{ page.title }} | {% filter ak_text:"org_name" %}{% client_name %}{% endfilter %}{% endblock %}</title>
+    <script>startTime=new Date()</script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    {{ page.followup.share_title_tag }}
+    {% if form.id %}<meta name="description" property="og:description" content="{% block description %}{{ page.followup.share_description_value }}{% endblock %}">{% endif %}
+    {{ page.followup.share_image_tag }}
+    {{ page.followup.share_url_tag }}
+    <meta property="og:site_name" content="{% filter ak_text:"org_name" %}{% client_name %}{% endfilter %}">
+    <meta property="og:type" content="article">
+    <meta name="twitter:card" value="summary">
+    {% block meta_additions %}{% endblock %}
+
+    {% load_css %}
+        //fonts.googleapis.com/css?family=Open+Sans:100,300,400,600,700
+        /media/modern/actionkit-2.3.0.css
+        https://fcnl.herokuapp.com/assets/actionkit.css
+https://s3.amazonaws.com/fcnlactionkit/images/actionkit.css
+    {% end %}
+    {% block css_additions %}{% endblock %}
+
+    {% load_ak_context context %}
+    {% load_js %}
+        //ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js
+        /resources/actionkit.js
+    {% end %}
+    {% block script_additions %}{% endblock %}
+</head>
+<body class="{{ filename|split:'.'|nth:0 }}-page lang-{{page.lang.iso_code|default:"unknown"}}{% if page.lang.is_rtl %} ak-rtl{% endif %} ak-no-js">
+    <script type="text/javascript">actionkit.forms.initPage()</script>
+
+    <div class="Rails">
+      <div class="Header">
+        <div class="Header-inner">
+          <p class="Header-logo">
+            <a class="Header-logo-link" href="http://www.fcnl.org" title="Friends Committee on National Legislation">
+              <img alt="FCNL" src="https://s3.amazonaws.com/fcnlactionkit/images/logo.svg">
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="ak-page-container">
+
+     <html> 
+<body> 
+      <div class="TitleBlock">
+        <h2 class="TitleBlock-title u-mb">Oh no! we can't find the page you're looking for</h2>
+        <div class="u-richtext u-richtext--light u-richtext--large u-richtext--noBug u-mt3">
+          <p>
+            Bad Link? Mistyped address? We're not sure, but you can search for what you were looking for
+            below or <a href="mailto:support@fcnl.org">contact us</a> if you think something's wrong.
+          </p>
+        </div>
+
+        <form class="Search u-mt3 u-mb10" action="https://fcnl.herokuapp.com/search">
+          <label class="u-screenreader" for="error_search_query">Enter keyword</label>
+          <input class="Search-query" type="text" name="q" id="error_search_query" placeholder="Enter Keyword" />
+          <button class="Search-submit" type="submit" style="margin:0;padding:0;background-color:transparent!important;">
+            <span class="u-screenreader">Submit Search</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="Search-submit-icon" viewBox="0 0 2048 2048" focusable="false" height="32" width="32" preserveAspectRatio="xMidYMid meet" role="img" aria-hidden="true">
+  <path d="M1344 960q0-185-131.5-316.5t-316.5-131.5-316.5 131.5-131.5 316.5 131.5 316.5 316.5 131.5 316.5-131.5 131.5-316.5zm512 832q0 52-38 90t-90 38q-54 0-90-38l-343-342q-179 124-399 124-143 0-273.5-55.5t-225-150-150-225-55.5-273.5 55.5-273.5 150-225 225-150 273.5-55.5 273.5 55.5 225 150 150 225 55.5 273.5q0 220-124 399l343 343q37 37 37 90z"/>
+</svg>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    </div>
+    <div class="Action u-section u-overflow">
+  <div class="l-padding">
+    <div class="l-wrap">
+      <ul class="Action-items">
+        <li class="Action-item">
+          <p class="Action-header">Attend an Event</p>
+          <p class="Action-description">FCNL events happen over the country.</p>
+          <a href="https://www.fcnl.org/events" class="Button Button--small Button--outline">Find Events</a>
+        </li>
+        <li class="Action-item">
+          <p class="Action-header">Make a Donation</p>
+          <p class="Action-description">Our work for peace and justice depends on you.</p>
+          <a href="https://act.fcnl.org/donate/donate/" class="Button Button--small Button--outline">Donate Now</a>
+        </li>
+        <li class="Action-hr" aria-hidden="true"></li>
+        <li class="Action-item">
+          <p class="Action-header">Stay Connected</p>
+          <p class="Action-description">Get weekly action alerts from FCNL.</p>
+          <form class="EmailForm" action="https://act.fcnl.org/act/" method="POST">
+  <input type="hidden" name="page" value="web-signup">
+  <label class="u-screenreader" for="footer_email_address">Enter your email address</label>
+  <input id="footer_email_address" type="email" name="email" class="EmailForm-email" placeholder="Enter email address">
+  <button class="EmailForm-submit" style="background:transparent!important;margin:0;padding:0;">
+    <span class="u-screenreader">Subscribe</span>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048" focusable="false" class="EmailForm-submit-icon" height="24" width="24" preserveAspectRatio="xMidYMid meet" role="img" aria-hidden="true">
+  <path d="M1792 1632v-768q-32 36-69 66-268 206-426 338-51 43-83 67t-86.5 48.5-102.5 24.5h-2q-48 0-102.5-24.5t-86.5-48.5-83-67q-158-132-426-338-37-30-69-66v768q0 13 9.5 22.5t22.5 9.5h1472q13 0 22.5-9.5t9.5-22.5zm0-1051v-24.5l-.5-13-3-12.5-5.5-9-9-7.5-14-2.5h-1472q-13 0-22.5 9.5t-9.5 22.5q0 168 147 284 193 152 401 317 6 5 35 29.5t46 37.5 44.5 31.5 50.5 27.5 43 9h2q20 0 43-9t50.5-27.5 44.5-31.5 46-37.5 35-29.5q208-165 401-317 54-43 100.5-115.5t46.5-131.5zm128-37v1088q0 66-47 113t-113 47h-1472q-66 0-113-47t-47-113v-1088q0-66 47-113t113-47h1472q66 0 113 47t47 113z"/>
+</svg>
+  </button>
+</form>
+
+        </li>
+        <li class="Action-item">
+          <p class="Action-header">Follow Us</p>
+          <p class="Action-description">Stay connected with our work on social media.</p>
+          <div class="SocialLinks">
+  <ul class="SocialLinks-items">
+    <li class="SocialLinks-item">
+      <a class="SocialLinks-link" href="http://facebook.com/quakerlobby">
+        <span class="u-screenreader">Follow us on Facebook</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048" focusable="false" class="SocialLinks-icon" height="18" width="18" preserveAspectRatio="xMidYMid meet" role="img" aria-hidden="true">
+  <path d="M1471 140v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/>
+</svg>
+</a>    </li>
+    <li class="SocialLinks-item">
+      <a class="SocialLinks-link" href="http://twitter.com/fcnl">
+        <span class="u-screenreader">Follow us on Twitter</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048" focusable="false" class="SocialLinks-icon" height="18" width="18" preserveAspectRatio="xMidYMid meet" role="img" aria-hidden="true">
+  <path d="M1812 536q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/>
+</svg>
+</a>    </li>
+    <li class="SocialLinks-item">
+      <a class="SocialLinks-link" href="http://youtube.com/quakerlobby">
+        <span class="u-screenreader">Subscribe on YouTube</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048" focusable="false" class="SocialLinks-icon" height="18" width="18" preserveAspectRatio="xMidYMid meet" role="img" aria-hidden="true">
+  <path d="M1408 1024q0-37-30-54l-512-320q-31-20-65-2-33 18-33 56v640q0 38 33 56 16 8 31 8 20 0 34-10l512-320q30-17 30-54zm512 0q0 96-1 150t-8.5 136.5-22.5 147.5q-16 73-69 123t-124 58q-222 25-671 25t-671-25q-71-8-124.5-58t-69.5-123q-14-65-21.5-147.5t-8.5-136.5-1-150 1-150 8.5-136.5 22.5-147.5q16-73 69-123t124-58q222-25 671-25t671 25q71 8 124.5 58t69.5 123q14 65 21.5 147.5t8.5 136.5 1 150z"/>
+</svg>
+</a>    </li>
+    <li class="SocialLinks-item">
+      <a class="SocialLinks-link" href="http://instagram.com/quaker_lobby">
+        <span class="u-screenreader">Follow us on Instagram</span>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048" focusable="false" class="SocialLinks-icon" height="18" width="18" preserveAspectRatio="xMidYMid meet" role="img" aria-hidden="true">
+  <path d="M1618 1554v-648h-135q20 63 20 131 0 126-64 232.5t-174 168.5-240 62q-197 0-337-135.5t-140-327.5q0-68 20-131h-141v648q0 26 17.5 43.5t43.5 17.5h1069q25 0 43-17.5t18-43.5zm-284-533q0-124-90.5-211.5t-218.5-87.5q-127 0-217.5 87.5t-90.5 211.5 90.5 211.5 217.5 87.5q128 0 218.5-87.5t90.5-211.5zm284-360v-165q0-28-20-48.5t-49-20.5h-174q-29 0-49 20.5t-20 48.5v165q0 29 20 49t49 20h174q29 0 49-20t20-49zm174-208v1142q0 81-58 139t-139 58h-1142q-81 0-139-58t-58-139v-1142q0-81 58-139t139-58h1142q81 0 139 58t58 139z"/>
+</svg>
+</a>    </li>
+  </ul>
+</div>
+
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+    <div class="Rails">
+      <div class="Footer">
+        <div class="l-padding u-mt3 u-mb3">
+          <div class="l-wrap">
+            <div class="l-secondary-primary">
+              <div class="l-primary u-mb2">
+                <div class="Footer-content">
+                  <div class="Fact u-mb2">
+                    <p class="Fact-label">Did You Know?</p>
+                    <p class="Fact-content">
+                      You can become an advocate for the future and work towards financial peace of mind with a life income gift. More info: Mary Comfort Ferrell, 202-903-2539
+                    </p>
+                  </div>
+                  <ol class="PipedList">
+                    <li class="PipedList-item">245 Second St, NE, Washington, DC 20002</li>
+                    <li class="PipedList-item">202-547-6000</li>
+                    <li class="PipedList-item">800-630-1330 <em>(Toll Free)</em></li><li class="PipedList-item"><a href="https://fcnl.org/donate/charitable_disclosure_statements/">Charitable Disclosure Statements</a></li>
+                  </ol>
+                  <p class="Footer-copyright">© 2016</p>
+                </div>
+              </div>
+              <div class="l-secondary">
+                <div class="AboutCard">
+                  <div class="AboutCard-logo">
+                    <a class="AboutCard-logo-link" href="http://www.fcnl.org" title="Friends Committee on National Legislation">
+                      <img alt="FCNL" src="https://s3.amazonaws.com/fcnlactionkit/images/logo.svg">
+                    </a>
+                  </div>
+                  <p class="AboutCard-summary">
+                    FCNL's multi-issue advocacy connects Quaker testimonies with legislation in Washington.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% block below_form %}
+    <script type="text/javascript">
+        actionkit.forms.contextRoot = '/context/';
+        actionkit.forms.initForm('act');
+    </script>
+    {% endblock %}
+
+    {% if analytics_key %}
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', '{{ analytics_key }}', 'auto');
+    ga('send', 'pageview');
+    </script>
+    {% endif %}
+</body> 
+</html> 

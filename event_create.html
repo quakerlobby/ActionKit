@@ -1,0 +1,412 @@
+{% extends "./wrapper.html" %}
+{% load actionkit_tags %}
+
+{% block css_additions %}
+{% endblock %}
+
+{% block script_additions %}
+
+{% include "includes/jquery_ui.html" %}
+
+<script type="text/javascript">
+    isEventUnitedStates = function () {
+        var country = actionkit.form && actionkit.form.event_country 
+        && actionkit.utils.val(actionkit.form.event_country)
+        return country == 'United States' || country == 'US' || !country;
+    };
+
+    reflectEventCountryChange = function() {
+        var is_us = isEventUnitedStates();
+        var event_zip = actionkit.form.event_zip, 
+        event_postal = actionkit.form.event_postal,
+        event_state = actionkit.form.event_state;
+        if ( event_zip && event_postal ) {
+            if ( is_us ) actionkit.forms.showAndHide(event_zip, event_postal);
+            else actionkit.forms.showAndHide(event_postal,event_zip);
+        }
+        if ( event_state ) {
+            if ( is_us ) {
+                $(event_state).removeAttr('disabled');
+                var shownRow = actionkit.forms.getRowForElement(event_state);
+                shownRow.show();
+            } 
+            else {
+                $(event_state).attr('disabled', true);
+                $(event_state).val('');
+                $(event_state).change();
+                var hiddenRow = actionkit.forms.getRowForElement(event_state);
+                hiddenRow.hide();
+            }
+        }
+    };
+
+    actionkitFormReady =  function() {
+        if ( (actionkit.form.event_zip && actionkit.form.event_postal) 
+        || (actionkit.form.event_state && actionkit.form.event_region) ) {
+            if (actionkit.context.prefill_data) { 
+                var event_zip_val = actionkit.context.prefill_data.event_zip,
+                event_postal_val = actionkit.context.prefill_data.event_postal;
+            }
+            reflectEventCountryChange();
+            if (actionkit.context.prefill_data) {
+                var is_us = isEventUnitedStates();
+                if (is_us) {
+                    actionkit.form.event_zip.value = event_zip_val;
+                    $(actionkit.form.event_zip).change();
+                }
+                else {
+                    actionkit.form.event_postal.value = event_postal_val;
+                    $(actionkit.form.event_postal).change();
+                }
+            }
+        }
+    };
+
+    $(document).ready( function() {
+        var prev_is_us, now_is_us;
+        $(actionkit.form.event_country).focus(function() {
+            prev_is_us = isEventUnitedStates();
+        }).change(function() {
+            now_is_us = isEventUnitedStates();
+            if ( prev_is_us != now_is_us ) {
+                reflectEventCountryChange();
+            }
+        });
+    });
+
+    $(function() {
+        if ( ( ! $('#id_event_starts_at_date[type="text"]').length ) && ! $('#id_event_starts_at_time[type="text"]').length ) {
+            $('#id_event_starts_at_row .ak-datetime').wrap('<div class="ak-readonly-value">' );
+        }
+        $('.ak-signoff-box input[type="checkbox"]').on('change', function() {
+            if ($(this).is(':checked')) {
+                $(this).next('label.cb-label').css('color', '#4b4b4b');
+            }
+        });
+    });
+</script>
+
+{% if update %}
+    <script type="text/javascript">
+    $( function() { 
+        $('#user-info input[name=email]').attr('disabled','disabled') 
+    } );
+    </script>
+{% endif %}
+
+<script type="text/javascript">
+var address_fields = [
+    'address1', 'address2', 'city', 'state', 'zip', 'postal', 'country'
+];
+function copyEventAddress() {
+    for (var i=0; i<address_fields.length; ++i)
+    $('#id_event_' + address_fields[i]).val(
+        $('#id_' + address_fields[i]).val() || ''
+    ).change();
+    // handle inconsistent id="state" in user_form and
+    // id="event_country" from country_select.html
+    $('#id_event_state').val($('#state').val() || $('#id_state').val() || '').change();
+    $('#event_country').val($('#country').val() || $('#id_country').val() || '').change();
+    if ( !$('#id_event_venue').val() )
+        $('#id_event_venue').val($('#id_event_venue').attr('if-at-my-house') || '').change()
+
+}
+function clearEventAddress() {
+    for (var i=0; i<address_fields.length; ++i)
+        $('#id_event_' + address_fields[i]).val('').change();
+    if ( $('#id_event_venue').val() == $('#id_event_venue').attr('if-at-my-house') )
+        $('#id_event_venue').val('').change();
+}
+$('#id_at_my_house').click(function() {
+    this.checked ? copyEventAddress() : clearEventAddress();
+})
+$( function () {
+    // check whether "Use my home address" even makes sense
+    for ( var i = 0; i < address_fields.length; ++i ) {
+        var fieldName = address_fields[i];
+        // if no #event_city, we don't care if user form has a #id_city
+        if (!$('#id_event_' + fieldName + ', #event_' + fieldName).length) 
+            continue;
+        // if no #id_address1 or #address1 to match #event_address1,
+        // hide the checkbox since it won't work
+        if (!$('#id_' + fieldName + ', #' + fieldName).length) {
+            $('#id_at_my_house').parent().remove();
+            break;
+        }
+    }
+} );
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+
+<form class="ak-form norecognize" name="act" method="POST" action="{% if update %}/update_action/{% else %}/act/{% endif %}" accept-charset="utf-8">
+
+<div class="ak-grid-row">
+    <div class="ak-grid-col-12-of-12">
+        {% if not update %}
+            <h2>{{ page.title }}</h2>
+            {% if form.host_text %}
+                <div class="area">{% include_tmpl form.host_text %}</div>
+            {% endif %}
+        {% else %}
+            <h2>Update Event Information</h2>
+        {% endif %}
+    </div>
+</div>
+
+<div class="ak-grid-row">
+    <div class="ak-grid-col-9-of-12">
+
+        <div id="event-create-form">
+
+            <ul class="compact" id="ak-errors"></ul>
+
+            <input type="hidden" name="page" value="{{ page.name }}">
+
+            <div id="user-info" class="ak-styled-fields ak-labels-before">
+                <h3>Your contact information</h3>
+<p>Not where the event will be held. We use your info to find your congressional district.</p>
+
+                {% include "./user_form_wrapper.html" %}
+              
+                <input type="hidden" name="never_recognize" value="1">
+            </div>
+
+            <div id="event-info">
+                <h3>Event information</h3>
+<p>If you aren't sure about the date and time yet, just leave the defaults. You can update them later.</p>
+                <div class="ak-errs-below ak-labels-before ak-styled-fields">
+                    {% if campaign.use_title %}
+                        <div>
+                            <label for="id_event_title">Event name*</label>
+                            <input id="id_event_title" type="text" name="event_title" placeholder="Chapel Hill Lobby Day" value="{{ campaign.default_title }}">
+                        </div>
+                    {% endif %}
+
+                    {% with event_starts_at as date_field %}
+                        <div id="id_event_starts_at_row">
+                            <label for="id_event_starts_at">Start date/time*</label> <br />
+                            {% include "./date_picker.html" %}
+                        </div>
+
+                        <script type="text/javascript">
+                            // Replace animation w/instant show, because anim  
+                            // breaks tabbing quickly past the date field.
+                            jQuery.fn.showFast = function(speed, callback) {
+                                this.show()
+                                callback()
+                            }
+                            // Removing datepicker doesn't break anything, and 
+                            // it might even be useful -- I can imagine users 
+                            // being confused when the picker covers up other 
+                            // key form fields.
+                            $(function() { 
+                                $("#id_event_starts_at_date").datepicker( { 
+                                    minDate: 0, showAnim: 'showFast'
+                                } ) 
+                            } );
+                        </script>
+
+                    {% endwith %}
+                    <label for="id_action_ends_at">End Time</label>
+                   <input id="id_action_ends_at" name="action_ends_at"></input>
+
+                    {% if campaign.use_ends_at %}
+                        {% with event_ends_at as date_field %}
+                            <div>
+                                <label for="id_event_ends_at">End time</label> 
+                                {% include "./date_picker.html" %}
+                            </div>
+                        {% endwith %}
+                    {% endif %}
+
+                    {% if campaign.allow_private %}
+                        <div id="id_event_is_private_row" class="ak-checkbox-field">
+                            <input id="id_event_is_private" type="checkbox" class="checkbox" name="event_is_private" value="1">
+                            <label class="cb-label" for="id_event_is_private">
+                                Make event private
+                            </label>
+                        </div>
+                    {% endif %}
+
+                    <div>
+                        <label for="id_event_max_attendees">Max. signups</label> 
+                        <input id="id_event_max_attendees" type="text" name="event_max_attendees" value="{{ campaign.default_event_size|default:"" }}" size=3>
+                    </div>
+
+                    {% include_tmpl form.custom_field_html %}
+                </div>
+            </div>
+
+            <div id="event-info">
+                <h3>Event location</h3>
+                <div class="unknown_user">
+                    <!-- 
+                        This only shows if the user form includes all of the 
+                        event fields (e.g., address1, country if you use it) 
+                    -->
+                    <input id="id_at_my_house" type="checkbox" class="checkbox" name="at_my_house" value="1">
+                    <label class="cb-label" for="id_at_my_house">
+                        Use my home address
+                    </label>
+                </div>
+                <div class="ak-errs-below ak-styled-fields ak-labels-before">
+                    {% with "event_" as input_name_prefix %}
+                        <div>
+<p>If you haven't decided on a meeting location yet, use the address of a local congressional office -- <a href="http://cqrcengage.com/fcnl/app/lookup?11&m=205464">find one near you</a>.</p>
+                            <label for="id_event_venue">Venue*</label>
+                            <input id="id_event_venue" type="text" if-at-my-house="Home" name="event_venue" placeholder="Rep. Price's Office">
+                        </div>
+                        <div>
+                            <label for="event_country">Country</label> 
+                            {% include "./country_select.html" %}
+                        </div>
+                        <div>
+                            <label for="id_event_address1">Street address*</label> 
+                            <input id="id_event_address1" type="text" name="event_address1">
+                        </div>
+                        <div>
+                            <label for="id_event_city">City*</label> 
+                            <input id="id_event_city" type="text" name="event_city">
+                        </div>
+                        <div>
+                            <label for="id_event_state">State*</label>
+                            {% include "./state_select.html" %}
+                        </div>
+                        <div>
+                            <label for="id_event_postal">Postal</label> 
+                            <input id="id_event_postal" type="text" name="event_postal">
+                        </div>
+                        <div>
+                            <label for="id_event_zip">ZIP*</label> 
+                            <input id="id_event_zip" type="text" name="event_zip">
+                        </div>
+                        <!-- <div><label for="id_event_phone">Contact phone:</label> <input id="id_event_phone" type="tel" name="event_phone" size="12"></div> -->
+                        {% if campaign.show_address1 %}
+                            <div class="strong">
+                                NOTE: Event addresses are public.
+                            </div>
+                        {% else %}NOTE: Event addresses are only visible to attendees.
+                        {% endif %}
+                    {% endwith %}
+                    <p>
+                        Double-check date, time, and location before you submit!
+                    </p>
+                </div>
+
+            </div>
+
+            <div id="event-info" class="ak-styled-fields ak-labels-before ak-errs-below">
+                <h3>Event description</h3>
+                <div class="ak-errs-below">
+                    <label for="id_event_public_description">
+                        Public description*  
+                        <br /><span class="ak-normal">
+                            {% if campaign.allow_private %}
+                                For public events, people
+                            {% else %}
+                                People
+                            {% endif %} 
+                            will see this text before signing up
+                        </span>
+                    </label>
+                    <textarea id="id_event_public_description" name="event_public_description" placeholder="We'll lobby Rep. Price (NC-4)"></textarea>
+                </div>
+<div><label for="id_action_local_organizers">Local Organizing Committee:</label>
+                   <textarea id="id_action_local_organizers" name="action_local_organizers"></textarea>
+</div>
+                <div>
+                    <label for="id_event_directions">Directions to event</label>
+
+                    <textarea id="id_event_directions" name="event_directions"></textarea>
+                </div>
+
+                <div>
+                    <label for="id_event_note_to_attenddees">Note to attendees
+                    </label>
+                    <textarea id="id_event_note_to_attenddees" name="event_note_to_attendees"></textarea>
+                </div>
+
+            </div>
+
+        </div><!--9-of-12-->
+
+    </div>
+
+    <div class="ak-grid-col-3-of-12">
+        {% if page.custom_fields.featured_image %}
+        <img class="ak-featured-img" src="{{page.custom_fields.featured_image}}">
+        {% endif %}
+    </div>
+</div>
+
+<div class="ak-grid-row">
+    <div class="ak-grid-col-12-of-12">
+        {% if not update %}
+            {% if form.host_requirements|is_nonblank or form.ground_rules|is_nonblank %}
+                <div id="ground-rules">
+                    <h3>Event rules</h3>
+
+                    {% if form.host_requirements %}
+                        <p>Here are the basic requirements for event hosts:</p>
+                        <div class="ak-signoff-box ak-errs-below">
+                            <blockquote>
+                                {% include_tmpl form.host_requirements %}
+                            </blockquote>
+                            <div>
+                                <input id="id_event_host_requirements" type="checkbox" name="event_host_requirements" value="1">
+                                <label class="cb-label" for="id_event_host_requirements">
+                                    <strong>Required:</strong>  
+                                    I can meet the requirements for hosting an event.
+                                </label>
+                            </div>
+                        </div>
+                    {% else %}
+                        <input type="hidden" name="event_host_requirements" value="1">
+                    {% endif %}
+
+                    {% if form.ground_rules|is_nonblank %}
+                        <p>Here are the rules for hosting events:</p>
+                        <div class="ak-signoff-box ak-errs-below">
+                            <blockquote>
+                                {% include_tmpl form.ground_rules %}
+                            </blockquote>
+                            <div>
+                                <input id="id_event_host_ground_rules" type="checkbox" name="event_host_ground_rules" value="1">
+                                <label class="cb-label" for="id_event_host_ground_rules">
+                                    <strong>Required:</strong>  
+                                    I agree to the rules for hosting an event.
+                                </label>
+                            </div>
+                        </div>
+                    {% else %}
+                        <input type="hidden" name="event_host_ground_rules" value="1">
+                    {% endif %}
+                </div>
+
+            {% else %}
+                <input type="hidden" name="event_host_requirements" value="1">
+                <input type="hidden" name="event_host_ground_rules" value="1">
+            {% endif %}
+        {% else %}
+            <input type="hidden" name="event_host_requirements" value="1">
+            <input type="hidden" name="event_host_ground_rules" value="1">
+        {% endif %}
+
+        {% if not update %}
+        <p>
+            Next, we'll email you a link to confirm your event.
+        </p>
+        {% endif %}
+        
+        <input id="id_submit" type="submit" value="{% if update %}Update event{% else %}Continue to next step: Confirm event{% endif %}" class="ak-styled-submit-button">
+
+    </div>
+</div>
+
+</form>
+
+{% endblock %}

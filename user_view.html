@@ -1,0 +1,99 @@
+{% extends './wrapper.html' %}
+
+{% block content %}
+
+<div class="ak-grid-row">
+    <div class="ak-grid-col-12-of-12">
+        <h1 class="ak-display-inline-block">{{ actionkit_user.name }}</h1> &nbsp; <a href="/logout/">Logout</a>
+    </div>
+</div>
+
+<div class="ak-grid-row">
+    <div class="ak-grid-col-12-of-12">
+
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        
+		<h2>Email And Address</h2>
+        <div><strong>{{ actionkit_user.email }}</strong></div>
+
+        <div class="ak-full-address">{{ actionkit_user.full_address }}</div>
+
+        <div><a href="update/">Update your email or address.</a></div>
+
+
+    <div class="ak-grid-row">
+        <div class="ak-grid-col-12-of-12">
+            <h2>Events</h2>
+        </div>
+    </div>
+    <div class="ak-grid-row">
+        <div class="ak-grid-col-12-of-12">
+            <ul>
+                {% for signup in signups %}
+                <li>
+                    <a href="{{ signup.url }}">{{ signup.event.title }} &mdash; {{ signup.event.get_starts_at_display }}</a>
+                    {% if signup.role == 'host' %}
+                    &nbsp;(you are hosting)
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>       
+
+<h2> Subscription History </h2>
+
+        <ul>
+            {% for subscription in actionkit_user.subscription_history %}
+            <li>
+                {{ subscription.list.name }}, {{ subscription.change.name }}, at {{ subscription.created_at|date:"m/d/Y" }}
+            </li>
+            {% endfor %}
+        </ul>
+
+        {% if actionkit_user.is_subscribed %}
+        <div><a href="/cms/unsubscribe/unsubscribe-fcnl-email?akid={{ actionkit_user.token }}">Unsubscribe</a></div>
+        {% endif %}
+        {% if recurring_donations %}
+        <h2> Your Recurring Donations </h2>
+        <ul>
+            {% for profile in recurring_donations %}
+            <li>
+                <strong>{{ profile.amt }}</strong> a {{ profile.inverse_period_display|lower }}, started on {{ profile.created_at|date:"m/d/Y" }}. 
+                You've given a total of {{ profile.payment_total_amt }}. 
+                {% if profile.is_active %}
+                    {% if profile.order.payment_method != "paypal" %}
+                        <a href="/cms/pledge/update/update-your-recurring-donation/">Update your credit card</a> or <a href="/pledge/cancel/cancel-recurring-donation/">cancel at any time.</a>
+                    {% else %}
+                        <a href="/cms/pledge/cancel/cancel-recurring-donation/">Cancel at any time.</a>
+                    {% endif %} 
+                {% else %}
+                    <b>{{ profile.get_status_display }} on {{ profile.updated_at|date:"m/d/Y" }} </b>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        {% if donations %}
+            <h3> Donation History </h3>
+            <ul>
+                {% for donation in donations %}
+                    <li>
+                        {{ donation.amt }} on {{ donation.created_at|date:"m/d/Y" }}  {% if donation.recurring %} (Recurring) {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+<p><strong>Standing Committee members:</strong> <a href="https://directorpoint.com/login">Log in to the committee portals.</a></p>    </div>
+</div>
+
+{% endblock %}

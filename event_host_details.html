@@ -1,0 +1,68 @@
+{% load actionkit_tags %}
+{% filter collapse_spaces %}
+
+
+{% if event.venue %}
+		<div class="event-venue">
+			{{ event.venue }}
+		</div>
+{% endif %}
+
+{% if campaign.show_address1 %}
+		<div class="event-address clearfix">
+			    <div class="event-address-content">
+			        <div class="event-address1">{{ event.address1 }}</div>
+			        <div class="event-city-etc">{{ event.city_etc }}</div>
+			    </div>
+		</div>
+{% endif %}
+<table class="ak-event-table">
+	{% if event.get_starts_at_display %}
+	<tr>
+		<div class="event-time">
+			<td><label>When: </label></td>
+			<td>{{ event.get_starts_at_display }}{% if event.is_in_past %} <span class="event-over-notice">(event is now over)</span>{% endif %}</td>
+		</div>
+	</tr>
+{% endif %}
+{% if event.directions %}
+	<tr>
+		<div class="event-directions">
+			<td><label>Directions to event: </label></td>
+			<td>{{ event.directions }}</td>
+		</div>
+	</tr>
+{% endif %}
+{% if event.note_to_attendees %}
+	<tr>
+		<div class="event-note-to-attendees">
+			<td><label>Note to attendees: </label></td>
+			<td>{{ event.note_to_attendees }}</td>
+		</div>
+	</tr>
+{% endif %}
+{% if event.campaign.allow_private %}
+	<tr>
+		<td></td>
+		<td>
+			<div class="event-privacy">
+				<label>Event is {% if event.is_private %}private{% else %}public{% endif %}.</label>
+			</div>
+		</td>
+	</tr>
+{% endif %}
+	<tr>
+        <div class="event-signup-link">
+            <td><label>Signup link: </label></td>
+            <td> <a href="http://{% client_domain %}{{ event.public_url }}">http://{% client_domain %}{{ event.public_url }}</a></td>
+        </div>
+	</tr>
+</table>
+
+{% if event.public_description %}
+		<p class="event-description">
+			{{ event.public_description }}
+		</p>
+{% endif %}
+
+{% endfilter %}

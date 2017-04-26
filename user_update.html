@@ -1,0 +1,65 @@
+{% extends "./wrapper.html" %}{% load actionkit_tags %}
+
+{% block title %}Update Your Account{% endblock %}
+
+{% block content %}
+
+{% if user %}
+<div class="ak-grid-row">
+    <div class="ak-grid-col-12-of-12">
+
+        <p class="area">
+            You are logged in as {{ user.name }}. <a href="/logout">Log out</a>
+        </p>
+    </div>
+</div>
+{% endif %}
+  
+{% if updated %}
+<div class="ak-grid-row">
+    <div class="ak-grid-col-12-of-12">
+        <p>Thanks! We've updated your information.</p>
+    </div>
+</div>
+{% endif %}
+
+<div class="ak-grid-row">
+    <div class="ak-grid-col-12-of-12">
+        <h2>Update Your Account</h2>
+    </div>
+</div>
+
+<div class="ak-grid-row">
+    <div class="ak-grid-col-9-of-12">
+        <form name="accountupdate" method="POST" class="ak-labels-before ak-styled-fields">
+    
+            {{ form.non_field_errors }}
+
+            {% for field in form.visible_fields %}
+                <div>
+                    <label for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                    </label>
+                    {{ field }}
+                    {{ field.errors }}
+                </div>
+            {% endfor %}
+        
+            <button type="submit" class="ak-styled-submit-button">Submit</button>
+
+        </form>
+    </div>
+    <div class="ak-grid-col-3-of-12">
+    </div>
+</div>
+
+<script>
+    $('ul.errorlist').each( function () {
+        $( this ).addClass('ak-errors').css('display', 'block').
+                parent().find('label, :input').addClass('ak-error').
+                closest('form').addClass('contains-errors');
+    } );
+</script>
+
+{% endblock content %}
+

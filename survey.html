@@ -1,0 +1,52 @@
+{% extends "./wrapper.html" %}
+{% load actionkit_tags %}
+
+{% block content %}
+
+<div class="ak-grid-row">
+    <div class="ak-grid-col-12-of-12">
+        <h2>{{ page.title }}</h2>
+
+        <div class="area ak-mobile-padding">{% include_tmpl form.introduction_text %}</div>
+    </div>
+</div>
+
+<form class="ak-form" name="act" method="POST" action="/act/" accept-charset="utf-8">
+    <input type="hidden" name="page" value="{{ page.name }}">
+
+    <div class="ak-grid-row">
+        <div class="ak-grid-col-4-of-12">
+            
+            {% if page.custom_fields.featured_image %}
+            <img class="ak-featured-img" src="{{page.custom_fields.featured_image}}">
+            {% endif %}
+            
+            <div id="survey-contact" class="ak-styled-fields ak-labels-overlaid ak-styled-zip">
+                {% include "./user_form_wrapper.html" %}
+            </div>
+            
+            {% include "./progress_meter.html" %}
+            
+        </div>
+        <div id="ak-survey-questions" class="ak-grid-col-8-of-12">
+            <div class="ak-field-box ak-field-box-padded ak-styled-fields ak-labels-above">
+
+                {% autoescape off %}
+                    {% for question in form.surveyquestion_set.all %}
+                    <div>
+                        <label class="ak-survey-question-label">
+                            {{ question.question_label }}
+                        </label>
+                        {{ question.input_html }}
+                    </div>
+                    {% endfor %}
+                {% endautoescape %}
+
+                <button type="submit" class="ak-styled-submit-button">Submit</button>
+            </div>
+        </div>
+
+    </div>
+</form>
+
+{% endblock %}

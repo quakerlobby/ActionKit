@@ -1,0 +1,91 @@
+{% extends "./wrapper.html" %}{% load actionkit_tags %}
+
+{% block content %}
+
+<div class="area" id="recurring-cancel">
+
+    <div class="ak-grid-row">
+        <div class="ak-grid-col-12-of-12">
+            <h2>{{ page.title }}</h2>
+        </div>
+        <div>
+            <p id="unknown_user"></p>
+            <p id="known_user"></p>
+            <p>Logged in as {{ logged_in_user.name }}. <a href="/logout/">Log out</a></p>
+         </div>
+    </div>
+
+    <div class="ak-grid-row">
+        <div class=" {% if page.custom_fields.featured_image %} ak-grid-col-9-of-12 {% else %}ak-grid-col-12-of-12 {% endif %}">
+
+            <div class="ak-field-box">
+                {% if active %}
+
+                    {% autoescape off %}
+                    <p>{% include_tmpl form.please_stay_text %}</p>
+                    {% endautoescape %}
+
+                    {% for profile in active %}
+
+                        <form class="action_form" name="act" method="POST" action="/act/" accept-charset="utf-8">
+                            <input type="hidden" name="akid" value="{{ logged_in_user.token }}">
+                            <input type="hidden" name="page" value="{{ page.name }}">
+                            <input type="hidden" name="profile_id" value="{{ profile.id }}">
+
+                            <ul class="compact" id="ak-errors"></ul>
+
+                            <table class="ak-key-value-table">
+                                <tr>
+                                    <th>Current monthly donation:</th>
+                                    <td>{{ profile.amt }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Created:</th>
+                                    <td>{{ profile.created_at|date }}</td>
+                                </tr>
+                                {% if profile.order.payment_method == "cc" %}
+                                <tr>
+                                    <th>Credit card ending in:</th>
+                                    <td>{{ profile.card_num }} 
+                                    </td> 
+                                </tr>
+                                <tr>
+                                    <th>Credit card expiration date:</th>
+                                    <td>{{ profile.display_expiration_date }}</td>
+                                </tr>
+                                {% endif %}
+
+                            </table>
+
+                            <p>Your next payment of <strong>{{ profile.amt }}</strong> will be charged on <strong>{{ profile.next_payment_date }}</strong></p>
+
+                            <div><button type="submit" class="normal">Cancel Donation</button></div>
+
+                        </form>
+
+                    {% endfor %}
+                {% else %}
+
+                    <p>You don't have any active recurring donations.</p>
+
+                    {% comment %}
+                    We have to have a form, or the JavaScript doesn't work.
+                    {% endcomment %}
+                    <form class="action_form" name="act" method="POST" action="/act/" accept-charset="utf-8">
+                        <ul class="compact" id="ak-errors"></ul>
+                        <input type="hidden" name="page" value="{{ page.name }}">
+                    </form>
+
+                {% endif %}
+            </div>
+
+        </div>
+		{% if page.custom_fields.featured_image %}
+		<div class="ak-grid-col-3-of-12">
+			<img class="ak-featured-img" src="{{page.custom_fields.featured_image}}">
+		</div>
+		{% endif %}
+    </div>
+</div>
+
+{% endblock %}

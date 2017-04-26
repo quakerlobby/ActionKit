@@ -1,0 +1,71 @@
+{% extends "./wrapper.html" %}
+{% load actionkit_tags %}
+
+{% block content %}
+
+<div class="ak-grid-row">
+    <div class="ak-grid-col-12-of-12">
+        <h2>{{ page.title }}</h2>
+    </div>
+</div>
+
+<form id="unsub-form" name="act" method="POST" action="/act/" accept-charset="utf-8">
+
+    <div class="ak-grid-row">
+    	<div class="area ak-grid-col-6-of-12">
+            {% if page.custom_fields.featured_image %}
+                <img class="ak-featured-img" src="{{page.custom_fields.featured_image}}">
+            {% endif %}
+    		{% autoescape off %}
+        		{% include_tmpl form.introduction_text %}
+    		{% endautoescape %}
+    	</div>
+    	<div class="area ak-grid-col-6-of-12 ak-styled-fields">
+
+            <ul class="compact" id="ak-errors"></ul>
+            <div id="unknown_user">
+                <div class="ak-labels-overlaid"> 
+                    <div>
+                        <label for="id_email">Email address</label>
+                        <input id="id_email" type="text" name="email" size=40>
+                    </div>
+                    <input type="hidden" name="country" value="United States">
+                </div>
+            </div>
+            <div id="known_user">
+                <div>
+                    <span style="color: red">
+                        Not <span id="known_user_name"></span>?  
+                        Please don't use this form!
+                    </span>
+                </div>
+            </div>
+
+            {% if user.subscriptions|length > 1 %}
+                <fieldset>
+                    <input type="hidden" name="have_unsub_lists" value="1">
+                    {% for s in user.subscriptions %}
+                        <input type="checkbox" checked name="unsub_lists" value="{{ s.list.id }}">
+                        Unsubscribe from {{ s.list.name }}<br>
+                    {% endfor %}
+                </fieldset>
+            {% endif %}
+
+            <div>
+                {% autoescape off %}
+                    <div class="ak-p-before-textarea">
+                        {% include_tmpl form.survey_question_text %}
+                    </div>
+                {% endautoescape %}
+                <textarea name="action_survey"></textarea>
+            </div>
+
+            <button type="submit">Unsubscribe</button>
+
+        </div>
+    </div>
+    
+    <input type="hidden" name="page" value="{{ page.name }}">
+</form>
+
+{% endblock %}

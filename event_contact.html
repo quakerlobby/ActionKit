@@ -1,0 +1,63 @@
+{% load actionkit_tags %}
+
+<a name="contact{% if to %}-{{to}}{% endif %}"></a>
+
+<div class="ak-nodisplay-if-js contact-form contact{% if to %}-{{to}}{% endif %} ak-grid-col-12-of-12">
+    <h3 class="ak-margin-none">Email {% if to == 'attendees' %}attendee{% else %}Host{% endif %}(s)</h3>
+    {% if need_form != 'no' %}
+    <form name="contact{% if to %}-{{to}}{% endif %}" method="post" action="/event/{{ campaign.local_name }}/{{ event.id }}/contact/" accept-charset="utf-8" class="ak-styled-fields">
+        <input type="hidden" name="page" value="{{ page.name }}">
+        <input type="hidden" name="akid" value="{{ args.akid }}">
+        <input type="hidden" name="form_name" value="contact{% if to %}-{{to}}{% endif %}">
+
+        <div id="ak-confirmation">
+            Sent!  If you like, you can send more messages below.
+        </div>
+
+        {% endif %}
+
+        <div class="ak-styled-fields ak-labels-before ak-errs-below">
+        
+        <div class="event-contact-headers">
+            <div>
+                <label>From</label>
+                <div class="ak-readonly-value">
+                    You (<span class="header-from header-val">{{ user.name }}</span>)
+                </div>
+            </div>
+            <div>
+                <label>To</label>
+                <div class="ak-readonly-value">
+                    <span class="header-to header-val">
+                        {% if signup.role == 'attendee' %}
+                            Your event host
+                        {% else %}
+                            <span class="if-js to-count">{{signups|length}}</span> 
+                            {% if to == 'attendees' %}attendee{% else %}co-host{% endif %}{% if signups|length > 1 %}(s){% endif %}
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        {% if to in 'attendees|cohosts' %}
+            <div class="event-contact-subject">
+                <label>Subject*</label>
+                <input type="text" name="subject" class="ak-full-width" value="Message from your &quot;{{ event.title|default:campaign.local_title }}&quot; {% if to == 'cohosts'%}co-{% endif %}host">
+            </div>
+        {% endif %}
+        <div class="event-contact-body">
+            <label>Your message*</label>
+            <textarea name="body"></textarea>
+        </div>
+        <div class="ak-align-right">
+            <input name="send_email" value="Send" type="submit" class="ak-btn-short"> 
+            <input type="submit" name="cancel" value="Cancel" onclick="window.location.reload(); return false;" class="ak-btn-short">
+        </div>
+
+        </div>
+
+        {% if need_form != 'no' %}
+        <input type="hidden" name="required" value="body">
+    </form>
+    {% endif %}
+</div>

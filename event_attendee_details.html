@@ -1,0 +1,59 @@
+{% load actionkit_tags %}
+
+{% filter collapse_spaces %}
+<style type="text/css">
+    .event-address label { float: left; white-space: pre; }
+    .event-address-content { float: left; }
+    .clear { clear: both; }
+    .event-over-notice { color: red; }
+</style>
+
+
+<div class="ak-field-box">
+ {% if campaign.use_title and campaign.show_title %}
+    <p class="ak-event-title"><a href="/event/{{ campaign.local_name }}/{{event.id}}/signup/?akid={{args.akid}}&zip={{args.zip}}">{{ event.title }}</a></p>
+ {% endif %}
+{% if event.venue %}
+		<span class="event-venue">	{{ event.venue }}</span>
+{% endif %}
+        <div class="event-address1">{{ event.address1 }}</div>
+       	<div class="event-city-etc">{{ event.city_etc }}</div>
+
+<table class="ak-event-table">
+{% if event.get_starts_at_display %}
+	<tr>
+		<div class="event-time">
+			<td><label>When: </label></td>
+			<td>{{ event.get_starts_at_display }}{% if event.is_in_past %}
+				<span class="event-over-notice">(event is now over)</span>{% endif %}
+			</td>
+		</div>
+	</tr>
+{% endif %}
+{% if event.directions %}
+	<tr>
+		<div class="event-directions">
+			<td><label>Directions to event: </label></td>
+			<td>{{ event.directions }}</td>
+		</div>
+	</tr>
+{% endif %}
+{% if event.note_to_attendees %}
+	<tr>
+		<div class="event-note-to-attendees">
+			<td><label>Your host says: </label></td>
+			<td>{{ event.note_to_attendees }}</td>
+		</div>
+	</tr>
+{% endif %}
+</table>
+{% if event.public_description %}
+
+		<p class="event-description">
+			{{ event.public_description }}
+		</p>
+
+{% endif %}
+
+</div>
+{% endfilter %}

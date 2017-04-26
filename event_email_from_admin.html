@@ -1,0 +1,15 @@
+Subject: {{subject}}
+
+{% load actionkit_tags %}
+<p>{{ message|linebreaksbr }}</p>
+
+<hr>
+
+<p>To use your event tools, visit <a href="https://{% client_ssl_domain %}/event/{{campaign.local_name}}/tools/?i={{ user|login_string }}&l=1">https://{% client_ssl_domain %}/event/{{campaign.local_name}}/tools/?i={{ user|login_string }}&l=1</a></p>
+
+
+<!-- Replacement for unsubscribe. -->
+<p><small>
+    You're receiving this message because you're signed up for an event.  
+    You can use your event tools, linked above, to cancel your signup and quit receiving these messages.
+</small></p>
