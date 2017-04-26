@@ -74,7 +74,7 @@
                         <tr>
                             <td class="ak-product-details">
                                 <div class="ak-product-name">{{ product.name }}</div>
-                                
+                                {% if product.desc %}<div class="ak-product-description">{{ product.desc }}</div>{% endif %}
                             </td>
                             <td class="ak-product-amount">
                                 <span id="product_{{ product.id }}_price" data-price="{{ product.price }}">
