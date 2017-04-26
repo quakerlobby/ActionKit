@@ -89,8 +89,7 @@
                                 {% if product.max == 1 %}
                                 <input type="checkbox" value="1" name="product_{{ product.id }}" id="product_{{ product.id }}" class="ak_product_inputs">
                                 {% else %}
-                                <input type="number" min="0" max="{{ product.max }}" onvalidate="return validate_product_count(this)" name="product_{{ product.id }}" id="product_{{ product.id }}" size="2" class="ak_product_inputs">
-                                {% endif %}
+<input type="number" min="0" max="{{ product.max }}" onvalidate="return validate_product_count(this)" name="product_{{ product.id }}" id="product_{{ product.id }}" size="2" class="ak_product_inputs">                                {% endif %}
                             </td>
                             <td class="ak-product-subtotal">
                             	<span class="ak-currency-sym">{{ page.currency_sym }}</span><span class="ak_product_subtotal_{{ product.id }}"></span>
