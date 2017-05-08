@@ -19,7 +19,7 @@
         <input type="hidden" name="page" value="{{ page.name }}">
         <input type="hidden" name="template" value="event_search.html">
         <input type="hidden" name="akid" value="{{ args.akid }}">
-        {% if page.custom_fields.national_events %}<input type="hidden" name="distance" value="10000">{% else %}<input type="hidden" name="distance" value="100">{% endif %}
+        {% if page.custom_fields.conference_call %}<input type="hidden" name="distance" value="10000">{% else %}<input type="hidden" name="distance" value="100">{% endif %}
         <input type="hidden" name="limit" value="10">
         
         <div class="ak-grid-row">
