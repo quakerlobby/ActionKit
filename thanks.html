@@ -19,8 +19,8 @@
 
     <div class="ak-grid-row">
         <div class="ak-grid-col-6-of-12">
-            <h3>
-                <img src="/media/modern/stance-supportive.svg" width="34" class="checkmark-icon" alt="&#10003;">  
+            <h2>
+                
                 {% if page.followup.send_taf and args.taf %}
             		{% filter ak_text:"tell_your_friends_banner" %}
                     Thanks!
@@ -30,7 +30,7 @@
                     Thanks!
                     {% endfilter %}
                 {% endif %}
-            </h3>
+            </h2>
             <div>
                 {% include_tmpl form.thank_you_text %} 
             </div>
