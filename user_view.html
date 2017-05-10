@@ -29,7 +29,7 @@
         <div><a href="update/">Update your email or address.</a></div>
 
 
-    <div class="ak-grid-row">
+    {% if signup %}<div class="ak-grid-row">
         <div class="ak-grid-col-12-of-12">
             <h2>Events</h2>
         </div>
@@ -47,7 +47,7 @@
                 {% endfor %}
             </ul>
         </div>
-    </div>       
+    </div>  {% endif %}     
 
 <h2> Subscription History </h2>
 
