@@ -13,7 +13,7 @@
     {% endif %}
 {% endif %}
 
-{% if page.SUPPRESS_SHARING %}
+{% if page.SUPPRESS_SHARING or page.custom_fields.suppress_sharing %}
 	<p>{% include_tmpl form.thank_you_text %}</p>
 {% else %}
 
@@ -23,7 +23,7 @@
                 
                 {% if page.followup.send_taf and args.taf %}
             		{% filter ak_text:"tell_your_friends_banner" %}
-                    Thanks!
+                    Share this action!
             		{% endfilter %}
                 {% else %}
                     {% filter ak_text:"notaf_thanks_banner" %}
@@ -34,10 +34,10 @@
             <div>
                 {% include_tmpl form.thank_you_text %} 
             </div>
-            <form name="taf">
+            <!--<form name="taf">
                 <input type="hidden" name="page" value="{{ page.name }}">
                 {% include "./progress_meter.html" %}
-            </form>
+            </form>-->
         </div>
 
         <div class="ak-grid-col-6-of-12 ak-margin-top-2">
@@ -98,7 +98,7 @@
                             </div>
                             <div>
                                 <label for="id_taf_body">Message</label>
-                                <div id="id_taf_body" name="taf_body" class="ak-readonly-value" style="white-space: pre-wrap">{% filter referring_akid:akid|tag_links:"source=taf" %}{% include_tmpl page.followup.taf_body escaped %}{% endfilter %}</div>
+                                <div id="id_taf_body" name="taf_body" class="ak-readonly-value" style="white-space: pre-wrap">{% filter referring_akid:akid|tag_links:"source=taf" %}{% include_tmpl page.followup.taf_body %}{% endfilter %}</div>
                             </div>
 
                             <div>
