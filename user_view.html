@@ -26,10 +26,10 @@
 
         <div class="ak-full-address">{{ actionkit_user.full_address }}</div>
 
-        <div><a href="update/">Update your email or address.</a></div>
+	    <div><strong><a href="update/">Update your email or address.</a></strong></div>
 
 
-    <div class="ak-grid-row">
+    {% if signup %}<div class="ak-grid-row">
         <div class="ak-grid-col-12-of-12">
             <h3>Events</h3>
         </div>
@@ -47,7 +47,7 @@
                 {% endfor %}
             </ul>
         </div>
-    </div>       
+    </div>  {% endif %}     
 
 <h3> Subscription History </h3>
 
