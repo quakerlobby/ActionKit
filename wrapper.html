@@ -13,8 +13,8 @@
     {% else %}{{ page.followup.share_title_tag }}
     {% if form.id and page.followup.share_description_value %}<meta name="description" property="og:description" content="{% block description %}{{ page.followup.share_description_value }}{% endblock %}">{% else %}<meta name="description" property="og:description" content="Act now to support peace and justice.">{% endif %}
     {{ page.followup.share_image_tag }}
-   {{ page.type }}
-    {% ifequal page.type 'event' %}
+   
+    {% ifequal page.type 'EventSignup' %}
         {% if page.custom_fields.share_event_search %}{{ page.followup.share_url_tag }}{% else %} <meta property="og:url" content="page.name" />{% endif %}
     {% else %}
     {{ page.followup.share_url_tag }}
