@@ -13,7 +13,12 @@
     {% else %}{{ page.followup.share_title_tag }}
     {% if form.id and page.followup.share_description_value %}<meta name="description" property="og:description" content="{% block description %}{{ page.followup.share_description_value }}{% endblock %}">{% else %}<meta name="description" property="og:description" content="Act now to support peace and justice.">{% endif %}
     {{ page.followup.share_image_tag }}
-    {{ page.followup.share_url_tag }}{% endif %}
+    {% ifequal page.type 'EventSignup' %}
+        {% if page.custom_fields.share_event_search %}{{ page.followup.share_url_tag }}{% else %} 
+        <meta property="og:url" content="https://act.fcnl.org/event/{{ page.name }}/{{ event.id }}/signup" />{% endif %}
+    {% else %}
+    {{ page.followup.share_url_tag }}
+    {% endifequal %}{% endif %}
     <meta property="og:site_name" content="{% filter ak_text:'org_name' %}{% client_name %}{% endfilter %}">
     <meta property="og:type" content="article">
     <meta name="twitter:card" value="summary">
