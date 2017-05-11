@@ -15,7 +15,7 @@
     {{ page.followup.share_image_tag }}
    
     {% ifequal page.type 'EventSignup' %}
-        {% if page.custom_fields.share_event_search %}{{ page.followup.share_url_tag }}{% else %} <meta property="og:url" content="page.name" />{% endif %}
+        {% if page.custom_fields.share_event_search %}{{ page.followup.share_url_tag }}{% else %} <meta property="og:url" content="{{ page.name }}" />{% endif %}
     {% else %}
     {{ page.followup.share_url_tag }}
     {% endifequal %}{% endif %}
