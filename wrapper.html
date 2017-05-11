@@ -18,7 +18,7 @@
         {% if page.custom_fields.share_event_search %}{{ page.followup.share_url_tag }}{% else %} <meta property="og:url" content="page.name" />{% endif %}
     {% else %}
     {{ page.followup.share_url_tag }}
-    {% endif %}{% endif %}
+    {% endifequal %}
     <meta property="og:site_name" content="{% filter ak_text:'org_name' %}{% client_name %}{% endfilter %}">
     <meta property="og:type" content="article">
     <meta name="twitter:card" value="summary">
