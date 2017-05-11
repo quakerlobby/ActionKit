@@ -8,10 +8,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge;chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-    {{ page.followup.share_title_tag }}
+    {% if page.custom_fields.share_page %}
+    <meta property="og:url" content="{{ page.custom_fields.share_page }}" />
+    {% else %}{{ page.followup.share_title_tag }}
     {% if form.id and page.followup.share_description_value %}<meta name="description" property="og:description" content="{% block description %}{{ page.followup.share_description_value }}{% endblock %}">{% else %}<meta name="description" property="og:description" content="Act now to support peace and justice.">{% endif %}
     {{ page.followup.share_image_tag }}
-    {{ page.followup.share_url_tag }}
+    {{ page.followup.share_url_tag }}{% endif %}
     <meta property="og:site_name" content="{% filter ak_text:'org_name' %}{% client_name %}{% endfilter %}">
     <meta property="og:type" content="article">
     <meta name="twitter:card" value="summary">
