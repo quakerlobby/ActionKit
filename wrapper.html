@@ -16,7 +16,7 @@
    
     {% ifequal page.type 'EventSignup' %}
         {% if page.custom_fields.share_event_search %}{{ page.followup.share_url_tag }}{% else %} 
-        <meta property="og:url" content="https://act.fcnl.org/event/{{ page.name }}/{{ page.campaign_id.event.id }}/signup" />{% endif %}
+        <meta property="og:url" content="https://act.fcnl.org/event/{{ page.name }}/{{ page.campaign_id.events_event.id }}/signup" />{% endif %}
     {% else %}
     {{ page.followup.share_url_tag }}
     {% endifequal %}{% endif %}
