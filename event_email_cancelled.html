@@ -1,11 +1,11 @@
-Subject: Your "{{campaign_title}}" event has been cancelled
+Subject: Your {{campaign_title}} event
 
 {% load actionkit_tags %}
-<p>The "{{ campaign.local_title }}" event you signed up for has been cancelled.</p>
-
-<p>You can search for other events here:</p>
+<p>The event you signed up for ({{ event.title }}) has been cancelled. This may have been for administrative reasons (like a duplicate event). You can search for other events here:</p>
 
 <p><a href="http://{% client_domain %}/event/{{ campaign.local_name }}/search/">http://{% client_domain %}/event/{{ campaign.local_name }}/search/</a></p>
+
+<p>If you think there's been an error, just let us know! Email support@fcnl.org and we'll follow up.
 
 <!-- Replacement for unsubscribe. -->
 <p><small>
