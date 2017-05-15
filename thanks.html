@@ -13,40 +13,40 @@
     {% endif %}
 {% endif %}
 
-{% if page.SUPPRESS_SHARING %}
+{% if page.SUPPRESS_SHARING or page.custom_fields.suppress_sharing %}
 	<p>{% include_tmpl form.thank_you_text %}</p>
 {% else %}
 
     <div class="ak-grid-row">
         <div class="ak-grid-col-6-of-12">
-            <h3>
-                <img src="/media/modern/stance-supportive.svg" width="34" class="checkmark-icon" alt="&#10003;">  
+            <h2>
+                
                 {% if page.followup.send_taf and args.taf %}
             		{% filter ak_text:"tell_your_friends_banner" %}
-                    Thanks!
+                    Share this action!
             		{% endfilter %}
                 {% else %}
                     {% filter ak_text:"notaf_thanks_banner" %}
                     Thanks!
                     {% endfilter %}
                 {% endif %}
-            </h3>
+            </h2>
             <div>
                 {% include_tmpl form.thank_you_text %} 
             </div>
-            <form name="taf">
+            <!--<form name="taf">
                 <input type="hidden" name="page" value="{{ page.name }}">
                 {% include "./progress_meter.html" %}
-            </form>
+            </form>-->
         </div>
 
         <div class="ak-grid-col-6-of-12 ak-margin-top-2">
             <div>
-                <a href="/share/link?type=fb&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}" class="ak-share-button ak-facebook" target="_blank">Post to Facebook</a>
+                <a href="/share/link?type=fb&amp;page_name={{page.custom_fields.share_page|default:page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}" class="ak-share-button ak-facebook" target="_blank">Post to Facebook</a>
             </div>
 
             <div>
-                <a class="ak-share-button ak-twitter" href="/share/link?type=tw&amp;page_name={{page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}" target="_blank">Share on Twitter</a>
+                <a class="ak-button ak-share-button ak-twitter" href="/share/link?type=tw&amp;page_name={{page.custom_fields.share_page|default:page.name}}&amp;action_id={{action.id}}&amp;akid={{akid}}" target="_blank">Share on Twitter</a>
                 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
             </div>
 
@@ -98,7 +98,7 @@
                             </div>
                             <div>
                                 <label for="id_taf_body">Message</label>
-                                <div id="id_taf_body" name="taf_body" class="ak-readonly-value" style="white-space: pre-wrap">{% filter referring_akid:akid|tag_links:"source=taf" %}{% include_tmpl page.followup.taf_body escaped %}{% endfilter %}</div>
+                                <div id="id_taf_body" name="taf_body" class="ak-readonly-value" style="white-space: pre-wrap">{% filter referring_akid:akid|tag_links:"source=taf" %}{% include_tmpl page.followup.taf_body %}{% endfilter %}</div>
                             </div>
 
                             <div>

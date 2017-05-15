@@ -17,10 +17,9 @@
 
         {% if page.custom_fields.full_width %}<div class="ak-grid-col-12-of-12">
 {% if page.custom_fields.featured_image %}
-            <img class="ak-featured-img" src="{{page.custom_fields.featured_image}}">
-            {% endif %}
-            <div>{% include "./progress_meter.html" %}</div>
-            {% include_tmpl form.ask_text %}
+           <div class="ak-grid-col-4-of-12"> <img class="ak-featured-img" src="{{page.custom_fields.featured_image}}"></div>
+{% endif %}
+  {% include_tmpl form.ask_text %}
 {% if page.custom_fields.ways_to_give %}<a href="https://www.fcnl.org/action/donate/ways-to-give" class="Button Button--large Button--blue Button--titleCase">More ways to give ›</a>{% endif %}
 </div>
 <div class="ak-grid-col-12-of-12 ak-field-box">
@@ -36,7 +35,6 @@
 
         <div class="ak-grid-col-8-of-12 ak-field-box">{% endif %}
 <p>Your {% if has_products %}registration fee with FCNL{% else %}gift to FCNL supports our lobbying and{% endif %} is <strong>not tax deductible</strong>.  {% if page.custom_fields.other_fund_page %}<a href="{{page.custom_fields.other_fund_page}}">Click here to make a tax-deductible gift to our 501(c)3 Education Fund.</a>{% endif %}</p>
-
             <!--Add .ak-donate-three-step for three-step-->
             <div class="ak-donate-menu ak-donate-three-step-visible">
                 <label class="ak-donate-step ak-donate-step-1">
@@ -103,12 +101,12 @@
                         </tbody>
                     </table>
 
-					 <p class="ak-donation-subtotal ak-align-right">
+                    
+<p class="ak-donation-subtotal ak-align-right">
                     	 <label class="ak-small-header">Registration Total</label>
                     	 	<strong><span class="ak-currency-sym">{{ page.currency_sym }}</span></strong>
                     	 	<span id="ak-donation-subtotal-amount"></span>
-                    </p>
-
+                  </p>  
 <input type="hidden" name="action_product_total" id="action_product_total">
 
                     {% endif %}
@@ -151,7 +149,8 @@
                     {% endif %}
                 </div>
 
-                {% if has_products %}
+{% if page.custom_fields.bumper_sticker %}&nbsp;
+                {% elif has_products %}
                 <h4 class="ak-donate-area-step-1">Donation (Optional)</h4>
                 {% endif %}
                 <div id="ak-amount-list" class="ak-err-above ak-donate-area-step-1">
@@ -204,6 +203,14 @@
                         {% endfor %}
                     </ul>
                     {% endfor %}
+{% if page.custom_fields.bumper_sticker %} 
+{% if has_products %}
+{% for product in products %}
+
+ <div class="ak-product-name"><input type="checkbox" value="1" name="product_{{ product.id }}" id="product_{{ product.id }}" class="ak_product_inputs" checked> Send me a {{ product.name }}</div>
+{% endfor %}
+{% endif %} 
+<input type="hidden" name="action_bumper_sticker" id="action_bumper_sticker" value="{{ page.custom_fields.bumper_sticker }}"> {% endif %}
                 </div>
                 </div>
 
@@ -234,7 +241,7 @@
                         </div>                 
 {% elif page.custom_fields.one_time_only %}
 <div id="ak-recurring-type" class="ak-clear"></div>
-                        <input type="hidden" name="donation_type" value="single"> 
+                        <input type="hidden" name="donation_type" value="single">
 {% elif allow_monthly %}
                         <div id="ak-recurring-type" class="ak-clear ak-donate-area-step-1">
                             <span>
@@ -251,7 +258,6 @@
                         <input type="hidden" name="donation_type" value="single">
                     {% endif %}
                 {% endif %}
-
 
                 <div id="ak-donation-contact" class="ak-styled-fields ak-donate-area-step-2 ak-errs-below">
 
@@ -508,7 +514,8 @@
 
         </div>
         
-        
+       
+
     </div>
 
 </form>
