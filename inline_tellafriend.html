@@ -20,7 +20,7 @@
                     {% include_tmpl page.followup.taf_subject escaped %}
                 </div>
                 
-                {% filter referring_akid:akid|tag_links:"source=taf"|linebreaksbr %}{% include_tmpl page.followup.taf_body escaped %}{% endfilter %}
+                {% filter referring_akid:akid|tag_links:"source=taf"|linebreaksbr %}{% include_tmpl page.followup.taf_body %}{% endfilter %}
             </div>
 
             <label for="id_taf_note">{% filter ak_field_label:"taf_note" %}Optional: Add a short note to the message{% endfilter %}</label>

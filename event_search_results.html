@@ -70,7 +70,7 @@
             
             </table>
             {% if campaign.show_public_description %}
-        		{% if event.public_description %}<p class="event-description">{{ event.public_description }}</p>{% endif %}{% if page.custom_fields.conference_call %}<p><strong>We will send a recording of the conference call to everyone who RSVPs.</strong></p>{% endif %}
+        		{% if event.public_description %}<p class="event-description">{{ event.public_description }}</p>{% endif %}<!--{% if page.custom_fields.conference_call %}<p><strong>We will send a recording of the conference call to everyone who RSVPs.</strong></p>{% endif %}-->
             {% endif %}
 		</div><!--ak-field-box-->
         {% endfor %}
