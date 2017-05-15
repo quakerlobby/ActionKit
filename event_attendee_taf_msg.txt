@@ -1,13 +1,22 @@
 Subject: Hope you can come!
 
 Hi,
-{% with action.event as event %}{% load actionkit_tags %}{% filter single_line %}I'm attending {% client_name %}'s event:
-{{ event.title }}.  It's {% if event.custom_fields.conference_call %}{% else %}at {{ event.address1 }} {% if event.venue %}({{ event.venue }}){% endif %} in {{ event.city }}, {{ event.region }} on {{ event.starts_at|date:"l, F j" }} at {{ event.starts_at|date:"f A" }} {{ event.custom_fields.conference_call }}.  
+{% with action.event as event %}
+{% load actionkit_tags %}
+{% filter single_line %}
+
+I'm attending an event as part of {% client_name %}'s 
+"{{ event.campaign.local_title }}" campaign.  It's at 
+{{ event.address1 }} {% if event.venue %}({{ event.venue }}){% endif %}
+in {{ event.city }}, {{ event.region }} 
+on {{ event.starts_at|date:"l, F j" }} at {{ event.starts_at|date:"f A" }}.  
+
 {% endfilter %}
 
-RSVP here to join me: http://{% client_domain %}/event/{{ event.campaign.signup_page.name }}/{{ event.id }}/?source=taf
-{% endwith %}
+RSVP here to join me:
 
+http://{% client_domain %}/event/{{ event.campaign.signup_page.name }}/{{ event.id }}/?source=taf
+{% endwith %}
 Thanks,
 {{ action.user.first_name }}
 
