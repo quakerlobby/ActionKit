@@ -16,15 +16,16 @@
 {% if event.venue %}
 		<span class="event-venue">	{{ event.venue }}</span>
 {% endif %}
+	{% if page.custom_fields.conference_call %}{% else %}
         <div class="event-address1">{{ event.address1 }}</div>
-       	<div class="event-city-etc">{{ event.city_etc }}</div>
+       	<div class="event-city-etc">{{ event.city_etc }}</div>{% endif %}
 
 <table class="ak-event-table">
 {% if event.get_starts_at_display %}
 	<tr>
 		<div class="event-time">
 			<td><label>When: </label></td>
-			<td>{{ event.get_starts_at_display }}{% if event.is_in_past %}
+			<td>{{ event.get_starts_at_display }}{% if event.custom_fields.ends_at %} - {{ event.custom_fields.ends_at }}{% endif %}{% if page.custom_fields.conference_call %} {{ page.custom_fields.conference_call }}{% endif %}{% if event.is_in_past %}
 				<span class="event-over-notice">(event is now over)</span>{% endif %}
 			</td>
 		</div>
