@@ -38,7 +38,13 @@
 			<td>{{ event.directions }}</td>
 		</div>
 	</tr>
-{% endif %}
+{% else %}{% if page.custom_fields.conference_call %}
+	<tr>
+		<div class="event-directions">
+			<td><label>To join the call: Call 1-888-585-9008. When prompted, enter conference room number 474-922-828.  </label></td>
+			<td>{{ event.directions }}</td>
+		</div>
+	</tr>{% endif %}{% endif %}
 {% if event.note_to_attendees %}
 	<tr>
 		<div class="event-note-to-attendees">
