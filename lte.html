@@ -167,7 +167,10 @@
                     {% for letter in form.cannedletter_set.all %}       
                     <div id="letter_{{letter.id}}">
                         <h5>Subject:</h5>{{letter.subject}}
-                        <h5>Message:</h5>{{letter.letter_text|linebreaks}}
+                        <h5>Message:</h5><div style="  -webkit-user-select: all;  /* Chrome all / Safari all */
+  -moz-user-select: all;     /* Firefox all */
+  -ms-user-select: all;      /* IE 10+ */
+  user-select: all;          /* Likely future */ ">{{letter.letter_text|linebreaks}}</div>
                     </div>
                     {% endfor %}
                 </ul>
