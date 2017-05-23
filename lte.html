@@ -98,6 +98,7 @@
 {% endblock %}
 {% block css_additions %}
 <style type="text/css">
+
 .canned_letter {
 	-webkit-user-select: all;  /* Chrome all / Safari all */
   -moz-user-select: all;     /* Firefox all */
@@ -160,7 +161,9 @@
                         <div class="ak-accordion-head">
                             Sample: {{ letter.subject|truncateletters:"20" }}
                         </div>
+
                         <div class="canned_letter">
+
                             {% if letter.subject|length > 20 %}
                             <p><b>{{letter.subject}}</b></p>
                             {% endif %}
