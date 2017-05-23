@@ -98,15 +98,15 @@
 {% endblock %}
 {% block css_additions %}
 <style type="text/css">
-.canned_letter p {
+
+.canned_letter {
 	-webkit-user-select: all;  /* Chrome all / Safari all */
   -moz-user-select: all;     /* Firefox all */
   -ms-user-select: all;      /* IE 10+ */
-  user-select: all;          /* Likely future */
+  user-select: all;          /* Likely future */ 
 	}
 </style>
 {% endblock %}
-
 {% block content %}
 
 <form class="ak-form" name="act" method="POST" action="/act/" accept-charset="utf-8">
@@ -161,7 +161,9 @@
                         <div class="ak-accordion-head">
                             Sample: {{ letter.subject|truncateletters:"20" }}
                         </div>
-                        <div class="canned_letter>
+
+                        <div class="canned_letter">
+
                             {% if letter.subject|length > 20 %}
                             <p><b>{{letter.subject}}</b></p>
                             {% endif %}
