@@ -8,11 +8,10 @@
         var name,
             to_row = $("#to_target_row"),
             media_target = $("#media_target"),
-            lte_letter = $('#lte-letter');
-
+            lte_letter = $('#lte-letter, #lte-submit');
         if (on) {
             media_target.fadeIn('fast');
-            lte_letter.fadeOut('fast');
+            //lte_letter.fadeOut('fast');
             to_row.fadeOut('fast');
             $("input[name=media_target]:checked").attr('checked', false);
         } else {
@@ -20,105 +19,88 @@
             lte_letter.fadeIn('fast');
             to_row.fadeIn('slow');
             name = $("input[name=media_target]:checked").closest(".ak-newspaper-row").find('.ak-newspaper-title a').html();
-            console.log($("input[name=media_target]:checked"));
             $("#to_target_name").html("Editor, " + name);
             $("html body").scrollTop($("form.ak-form").position().top);
         }
-    }
-
-    $("input[name=media_target]").change(function() { toggleChooser(false) } );
+    }    
 
     // adapted from http://blog.themeforest.net/tutorials/creating-a-jquery-word-counter/
     function countWords(textarea) {
-
-        var elClass = $(textarea).attr('class');
+    	//console.log('count words running');
+        var countControl = ( '' + $(textarea).data('wordcount') ).split(',');
         var minWords = 0;
         var maxWords = 0;
-        var countControl = elClass.substring((elClass.indexOf('count['))+6, elClass.lastIndexOf(']')).split(',');
-        var countArea = $(textarea).siblings(".wordCount");
     
         if(countControl.length > 1) {
             minWords = countControl[0];
             maxWords = countControl[1];
         } else {
             maxWords = countControl[0];
-        }   
-    
-        if(minWords > 0) {
-            countArea.addClass('error');
-        }   
-    
-        $(textarea).bind('keyup click blur focus change paste', function() {
-            var numWords = jQuery.trim($(this).val()).split(/\s+/).length;
+        }
+        
+        var countArea = $(textarea).siblings(".ak-counter-area");
+        var countDigits = countArea.children('.ak-counter-words');
+                
+        var update_func = function() {
+            // console.log('countWords update_func');
+            var numWords = jQuery.trim($(textarea).val()).split(/\s+/).length;
             if($(textarea).val() === '') {
                 numWords = 0;
-            }   
-            countArea.children('strong').text(numWords);
-        
+            } 
+            countDigits.text(numWords);
+
             if(numWords < minWords || (numWords > maxWords && maxWords != 0)) {
-                countArea.addClass('count_error');
+                countDigits.addClass('ak-color-error');
             } else {
-                countArea.removeClass('count_error');    
+                countDigits.removeClass('ak-color-error');    
             }
-        });
+
+        };
+        
+        update_func();
+    
+        $(textarea).bind('keyup click blur focus change paste', update_func);
     }
-    function commify(n) {
-        return n.toString().replace(/\B(?=(?:\d{3})+(?!\d))/g, ",");
-    }
-    function abbreviate(word, maxLength) {
-        return word.length <= maxLength ? 
-            word : word.substring(0, maxLength - 3) + "...";
+    function abbreviate(name, maxLength) {
+        return name.length <= maxLength ? 
+            name : name.substring(0, maxLength - 3) + "...";
     }
 
-    $(window).load(function() {
-        letters = $('div[id^="letter_"]');
-        var start = letters.first().attr('id').split("_").pop();
-        var counter = start;
-        letters.each(function() {
-            $('#letter_'+counter).insertAfter('a[href="#letter_'+counter+'_link"]');
-            counter++;
-        });
+    $(window).load( function() {
+        $('.ak-accordion ul li').children(':not(.ak-accordion-head)').hide();
 
-        $('#lte-help ul li a').next('div').hide();
+        $(".ak-accordion .ak-accordion-head").on('click', function() {
+            var section = $(this).parent();
+            section.toggleClass('active');
+            section.children(':not(.ak-accordion-head)').slideToggle();
+        } );
 
-        $("#lte-help ul li").on('click', function() {
-            $(this).toggleClass('active');
-            var content = $(this).find('span').next('div');
-            content.slideToggle();
-
-        });
-
-        $('#lte-help ul li a').after('<span class="ak-arrow-holder"><span class="ak-arrow"></span></span>');
-
-    });
+        $('.ak-accordion .ak-accordion-head').append(
+            '<span class="ak-arrow-holder"><span class="ak-arrow"></span></span>'
+        );
+        
+        $("input[name=media_target]").change( function() { 
+            toggleChooser(false);
+            return false;
+        } );
+        $('#ak-newspaper-change').click( function() { 
+            toggleChooser(true);
+            return false;
+        } );
+        /*If there is an error on form submission, make sure the page reloads to stay on the form*/
+        if ($('ul.compact:contains("letter")').length){
+			toggleChooser(false);
+        }
+    } );
 
 </script>
 
 {% endblock %}
 
-{% block css_additions %}
-
-<style type="text/css">
-    .count_error { color: red; }
-    td { vertical-align: baseline; }
-    td.textarealabel { vertical-align: top; }
-    #media_target table tr td label { font-weight: normal; }
-    #media_target table tr td { padding: 1px; padding-left: 5px; white-space:nowrap; }
-    tr.level_header td { font-weight: bold; padding-top: 6px !important; white-space: nowrap; }
-    tr.shaded td { background-color: #ddd; }
-    td.number { text-align: right; }
-
-.ak-styled-fields textarea {
-    min-height: 600px; 
-}
-
-
-</style>
-
-{% endblock %}
 {% block content %}
 
 <form class="ak-form" name="act" method="POST" action="/act/" accept-charset="utf-8">
+    <input type="hidden" name="page" value="{{ page.name }}">
 
     <div class="ak-grid-row">
         <div class="ak-grid-col ak-grid-col-12-of-12">
@@ -133,63 +115,72 @@
             <img class="ak-featured-img" src="{{page.custom_fields.featured_image}}">
             {% endif %}
 
-            <div class="ak-styled-description">
+            <div class="ak-styled-description ak-text-expander">
                 {% include_tmpl form.introduction_text %}
             </div>
+            <a href="#" class="ak-read-more ak-mobile" data-lines="10">Read more</a>
 
             <div id="lte-prelim"></div>
 
-            <div id="user_info_prompt">
-            </div>
-
-            <div id="lte-help"></div>
-            <script type="text/ak-template" for="lte-help">
+            <div id="ak-lte-help" class="ak-accordion"></div>
+            <script type="text/ak-template" for="ak-lte-help">
 
                 <ul>
-					{% if form.talking_points %}
-                    <li><a href="#talking_points">Talking Points</a>
-                        <div id="talking_points">
+                    {% if form.talking_points %}
+                    <li>
+                        <div class="ak-accordion-head">
+                            Talking Points
+                        </div>
+                        <div>
                             {% include_tmpl form.talking_points %}
                         </div>
                     </li>
                     {% endif %}
                     {% if form.writing_tips %}
-                    <li><a href="#writing_tips">Writing Tips</a>                   
-                        <div id="writing_tips">
+                    <li>
+                        <div class="ak-accordion-head">
+                            Writing Tips
+                        </div>
+                        <div>
                             {% include_tmpl form.writing_tips %}
                         </div>
                     </li>
                     {% endif %}
                     {% for letter in form.cannedletter_set.all %}       
-                    <li><a href="#letter_{{letter.id}}_link">Sample: {{ letter.subject|truncateletters:"20" }}</a></li>
-                    {% endfor %}
-
-                    {% for letter in form.cannedletter_set.all %}       
-                    <div id="letter_{{letter.id}}">
-                        <h5>Subject:</h5>{{letter.subject}}
-                        <h5>Message:</h5><div style="  -webkit-user-select: all;  /* Chrome all / Safari all */
-  -moz-user-select: all;     /* Firefox all */
-  -ms-user-select: all;      /* IE 10+ */
-  user-select: all;          /* Likely future */ ">{{letter.letter_text|linebreaks}}</div>
-                    </div>
+                    <li>
+                        <div class="ak-accordion-head">
+                            Sample: {{ letter.subject|truncateletters:"20" }}
+                        </div>
+                        <div>
+                            {% if letter.subject|length > 20 %}
+                            <p><b>{{letter.subject}}</b></p>
+                            {% endif %}
+                            {{letter.letter_text|linebreaks}}
+                        </div>
+                    </li>
                     {% endfor %}
                 </ul>
 
             </script>
 
-            <input type="hidden" name="page" value="{{ page.name }}">
-
         </div>
         <div class="ak-grid-col ak-grid-col-6-of-12">
             {% include "./progress_meter.html" %}
 
-            <script type="text/ak-template" for="user_info_prompt">
-                [% if (incomplete) { %]
-                    <p>Please enter your information so we can find newspapers for you to contact.</p>
-                [% } %]
-            </script>
             <div class="ak-styled-fields {{templateset.custom_fields.field_labels_class|default:"ak-labels-overlaid"}} {{templateset.custom_fields.field_errors_class|default:"ak-errs-below"}}">
-                {% include "./user_form_wrapper_local.html" %}
+                
+                <div id="ak-need-contact-info"></div>
+                <script type="text/ak-template" for="ak-need-contact-info">
+                    [% if (incomplete) { %]
+                        <div class="ak-instructions ak-faded-text">
+                            {% filter ak_text:"lte_needs_contact_info" %}
+                                Please enter your information so we can find newspapers for you to contact.
+                            {% endfilter %}
+                        </div>
+                    [% } %]
+                </script>
+                
+                {% include "./user_form_wrapper.html" %}
             </div>
 
             <div id="media_target"></div>
@@ -198,7 +189,6 @@
 
                 [% if (!incomplete) { %]
                     <p>Choose a newspaper to send a letter to:</p>
-
                 [%  
                 var headers = {
                     "local": "Local Newspapers",
@@ -215,7 +205,6 @@
                         %]
                         <div class="ak-newspaper">
                             <h3>[%=headers[mediaTargetType]%]</h3>
-
                         </div>
                         [%        
                         var shade = true;
@@ -225,29 +214,37 @@
                             name = abbreviate(mediaTarget.name, 30),
                             label = "<a>" + name + "</a>";
                             if (mediaTarget.website_url) {
-                                label = "<a target=\"_blank\" href=\"" + mediaTarget.website_url + "\">" + name + "</a>";
+                                label = "<a class=\"ak-highlight-on-hover\" target=\"_blank\" href=\"" + mediaTarget.website_url + "\">" + name + "</a>";
                             }
                             shade = !shade;
                             %]
-                            <div class="[%= shade ? "shaded" : "" %] ak-newspaper-row">
+                            <div class="[%= shade ? "ak-alternate-row" : "" %] ak-newspaper-row">
                                 <div class="ak-newspaper-title">[%=label%]</div>
                                 <div>
 
-                                    <label for='[%=targetId%]'>
-                                        <input class='media_target' id='[%=targetId%]' value='[%=mediaTarget.id%]'
-                                        type='radio' name='media_target' onclick='javascript:toggleChooser(false)'>
-                                        Select</label>
+                                    <label class="ak-button ak-newspaper-choice" for="[%=targetId%]">
+                                        <input class="media_target" id="[%=targetId%]" value="[%=mediaTarget.id%]" type="radio" name="media_target">
+                                        Select
+                                    </label>
 
-                                    </div>
-                                    <div class="number"><strong>Circulation:</strong> [%=commify(mediaTarget.circulation)  %]</div>
-
-                                    [% if (actionkit.context.show_phones && mediaTarget.phone) { %]
-
-                                        <div class="nowrap"><strong>Phone:</strong> [%=mediaTarget.phone%]</div>
-
-                                    [% } %]
-                                    <div class="number"><strong>Sent:</strong> [%=mediaTarget.sent%]</div>
                                 </div>
+                                <div class="ak-faded-text">
+                                    <div class="number">
+                                        <strong>Circulation:</strong> 
+                                        [%= actionkit.utils.add_commas(mediaTarget.circulation) %]
+                                    </div>
+                                    [% if (actionkit.context.show_phones && mediaTarget.phone) { %]
+                                        <div class="nowrap">
+                                            <strong>Phone:</strong>
+                                            [%=mediaTarget.phone%]
+                                        </div>
+                                    [% } %]
+                                    <div class="number">
+                                        <strong>Sent:</strong>
+                                        [%=mediaTarget.sent%]
+                                    </div>
+                                </div>
+                            </div>
                                 [%
                             }
                         }
@@ -256,37 +253,58 @@
 
             </script>
 
-            <div id="lte-letter"></div>
+            <div id="lte-letter" style="display: none;"></div>
             <script type="text/ak-template" for="lte-letter">
                 [% if (!incomplete) { %]
-                    <table class="ak-styled-fields">
-                        <tr id="to_target_row" style="display: none;">
-                            <td>To:</td>
+                    <table class="ak-styled-fields ak-message-form">
+                        <tr id="to_target_row">
+                            <th>
+                                <label>
+                                    To
+                                </label>
+                            </th>
                             <td>
-                                <span id="to_target_name"></span>
-                                <span style="font-size: smaller"> &nbsp; <a href="#" onclick="javascript:toggleChooser(true)">change</a></span>
+                                <div class="ak-readonly-value">
+                                    <span id="to_target_name"></span>
+                                    <a id="ak-newspaper-change" href="#">Change</a>
+                                </div>
                             </td>
                         </tr>
                         <tr>
-                            <td>Subject</td>
-                            <td><input id="letter_subject" type="text" name="subject" size="40"></td>
-                        </tr>
-                        <tr>
-                            <td class="textarealabel">Message</td>
+                            <th>
+                                <label for="letter_subject" >
+                                    Subject
+                                </label>
+                            </th>
                             <td>
-                                <textarea id="letter_text" name="letter_text" class="count[250]"></textarea>
-                                <div class="wordCount"><strong>0</strong> Words.  Most newspapers only consider letters of 250 to 350 words.</div>
+                                <input id="letter_subject" type="text" name="subject" size="40">
                             </td>
                         </tr>
                         <tr>
-                            <td> </td>
+                            <th>
+                                <label for="letter_text" >
+                                    Message
+                                </label>
+                            </th>
+                            <td>
+                                <textarea id="letter_text" name="letter_text" class="ak-large-message" data-wordcount="250,350"></textarea>
+                                <div class="ak-counter-area">
+                                    <span style="font-weight: bold" class="ak-counter-words">0</span> Words.  
+                                    Most newspapers only consider letters of 250 to 350 words.
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th> </th>
                             <td>Your name, address and phone number will be added as a signature.</td>
                         </tr>
                     </table>
                 [% } %]
             </script>
 
-            <div id="lte-submit"><button type="submit" class="ak-styled-submit-button">Submit</button></div>
+            <div id="lte-submit">
+                <button type="submit" class="ak-submit-button">Submit</button>
+            </div>
 
         </div>
 
@@ -298,8 +316,8 @@
     [%
     /* Done inside an ak-template to ensure this executes after other ak-templates. */
     if (!incomplete) {
-        /* $("#lte-help").tabs(); */
-        countWords($("#letter_text")[0]);
+        countWords($("[data-wordcount]")[0]);
+        $('#lte-submit').hide()
     }
     %]
 </script>
