@@ -13,7 +13,7 @@ var saveAs=saveAs||typeof navigator!=="undefined"&&navigator.msSaveOrOpenBlob&&n
 var N=["BEGIN:VEVENT","CLASS:PUBLIC","DESCRIPTION: {{ event.public_description }}{{ event.directions }}","DTSTART:{{ event.starts_at|date:'Ymd'  }}T{{ event.starts_at|date:'His'  }}","DTEND:{{ event.starts_at|date_add:'hours=1'|date:'Ymd' }}T{{ event.starts_at|date_add:'hours=1'|date:'His' }}","LOCATION: {% if page.custom_fields.conference_call %}Conference Call{% else %}{{ event.venue }}, {{ event.address1 }}, {{ event.city_etc }}{% endif %}","SUMMARY;LANGUAGE=en-us:"+n,"TRANSP:TRANSPARENT","END:VEVENT"].join(e);t.push(N);return N},download:function(i,s){if(t.length<1){return false}s=typeof s!=="undefined"?s:".ics";i=typeof i!=="undefined"?i:"calendar";var o=n+e+t.join(e)+r;var u;if(navigator.userAgent.indexOf("MSIE 10")===-1){u=new Blob([o])}else{var a=new BlobBuilder;a.append(o);u=a.getBlob("text/x-vCalendar;charset="+document.characterSet)}saveAs(u,i+s);return o}}}
 
  var cal_single = ics();
-	// cal_single.addEvent('{{ event.title }}', '{{ event.public_description }}', '{{ event.venue }}, {{ event.address1 }}, {{ event.city_etc }}', '{{ event.starts_at|date:"m/d/Y g:i A"  }}', '{{ event.starts_at|date_add:"hours=3"|date:"m/d/Y g:i A"  }}');
+	 cal_single.addEvent();
 // var makelogs = function(obj) {
 //	console.log('Events Array');
 //	console.log('=================');
