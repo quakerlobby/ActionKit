@@ -214,14 +214,14 @@ $( function () {
                     <label for="id_action_ends_at">End Time</label>
                    <input id="id_action_ends_at" name="action_ends_at"></input>
 
-                    {% if campaign.use_ends_at %}
+                  <!--  {% if campaign.use_ends_at %} -->
                         {% with event_ends_at as date_field %}
                             <div>
                                 <label for="id_event_ends_at">End time</label> 
                                 {% include "./date_picker.html" %}
                             </div>
                         {% endwith %}
-                    {% endif %}
+                  <!--  {% endif %} -->
 
                     {% if campaign.allow_private %}
                         <div id="id_event_is_private_row" class="ak-checkbox-field">
