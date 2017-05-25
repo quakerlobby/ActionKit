@@ -213,37 +213,8 @@ $( function () {
                     {% endwith %}
                             <div>
                                 <label for="id_event_ends_at">End time</label> 
-                                <div class="ak-datetime">
-                                     {% if event_starts_at.hidden_date %}
-                                      <input type="hidden" name="event_ends_at_date" id="id_event_ends_at_date" value="{{ event_starts_at.default_date }}">
-                                     {% else %}
-                                     {% if event_starts_at.static_date %}
-                                       <input type="hidden" name="event_ends_at_date" id="id_event_ends_at_date" value="{{ event_starts_at.default_date }}">
-                                              {{ event_starts_at.default_date }}
-                                     {% else %}
-            <input type="text" placeholder="mm/dd/yyyy" size="10" name="event_ends_at_date" id="id_event_ends_at_date" value="{{ event_starts_at.default_date }}" format="date">
-        {% endif %} 
-        {% if not event_starts_at.hidden_time %}
-            at
-        {% endif %}
-    {% endif %}
-
-    {% if event_starts_at.hidden_time %}
-        <input type="hidden" name="event_ends_at_time" id="id_event_ends_at_time" value="{{ event_starts_at.default_time }}">
-    {% else %} 
-        {% if date_field.static_time %}
-            <input type="hidden" name="event_ends_at_time" id="id_event_ends_at_time" format="time" value="{{ event_starts_at.default_time|date_add:'hours=1' }}">
-            <input type="hidden" name="event_ends_at_ampm" id="id_event_ends_at_ampm" value="{{ event_starts_at.default_ampm }}">
-            {{ event_starts_at.default_time|date_add:'hours=1' }} {{ event_starts_at.default_ampm }}
-        {% else %}
-            <input type="text" placeholder="hh:mm" size="8" name="event_ends_at_time" id="id_event_ends_at_time" value="" format="time">
-            <select name="event_ends_at_ampm" id="id_event_ends_at_ampm">
-                <option {% if date_field.default_ampm == 'AM' %}selected{% endif %} value="AM">AM</option>
-                <option {% if date_field.default_ampm == 'PM' %}selected{% endif %} value="PM">PM</option>
-            </select>
-        {% endif %}
-    {% endif %}
-</div>
+                                <div class="ak-datetime"><input id="id_event_ends_at" name="event_ends_at" type="textbox" /></div>
+                                    
 
                             </div>
                         
