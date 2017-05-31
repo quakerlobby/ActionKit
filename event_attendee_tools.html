@@ -371,7 +371,7 @@
     <div class="ak-grid-row">
 
         <div class="ak-grid-col-12-of-12">
-		{% with page.custom_fields.ends_at as endtime %}{{ endtime|load_datetime:"%B-%D-%Y"|date:"l, F jS" }}{% endwith %}
+		{% with page.custom_fields.ends_at as endtime %}{{ endtime|load_datetime:"%Y-%m-%d"|date:"l, F jS" }}{% endwith %}
 
             {% if campaign.use_title %}
 
