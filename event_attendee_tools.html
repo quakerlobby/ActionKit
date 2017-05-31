@@ -371,8 +371,7 @@
     <div class="ak-grid-row">
 
         <div class="ak-grid-col-12-of-12">
-		Endtime Event: {{event.custom_fields.ends_at}} Page: {{page.custom_fields.ends_at}}
-
+		
             {% if campaign.use_title %}
 
                 <h2>Event: {{ event.title }}</h2>
@@ -458,7 +457,20 @@
 
 <div class="ak-clearfix">
 	
-	<a href="javascript:cal_single.download('{{ event.title }}')" class="Button Button--large Button--blue Button--titleCase" style="margin: 0 auto 1em;">{% with event.custom_fields.ends_at as endtime %}{{event.custom_fields.ends_at}}{{ endtime|load_datetime:"%Y-%m-%d"|date:"l, F jS" }}{% endwith %}</a>
+	<a href="javascript:cal_single.download('{{ event.title }}')" class="Button Button--large Button--blue Button--titleCase" style="margin: 0 auto 1em;">{% with event.custom_fields.ends_at as endtime %}{{ endtime|load_datetime:"%Y-%m-%d %I:%M %p"|date:"f A" }}{% endwith %}</a>
+	
+	<span class="addtocalendar atc-style-blue">
+        <var class="atc_event">
+            <var class="atc_date_start">2017-09-22 12:00:00</var>
+            <var class="atc_date_end">{% with event.custom_fields.ends_at as endtime %}{{ endtime|load_datetime:"%Y-%m-%d %I:%M %p"|date:"Y-m-d H:i" }}:00{% endwith %}</var>
+            <var class="atc_timezone">Europe/London</var>
+            <var class="atc_title">Star Wars Day Party</var>
+            <var class="atc_description">May the force be with you</var>
+            <var class="atc_location">Tatooine</var>
+            <var class="atc_organizer">Luke Skywalker</var>
+            <var class="atc_organizer_email">luke@starwars.com</var>
+        </var>
+    </span>
 
                {% if event.is_open_for_signup %}
 
