@@ -458,7 +458,7 @@
 
 <div class="ak-clearfix">
 	
-	<a href="javascript:cal_single.download('{{ event.title }}')" class="Button Button--large Button--blue Button--titleCase" style="margin: 0 auto 1em;">{{ '2013-01-01'|load_datetime:"%Y-%m-%d"|date:"l, F jS" }}</a>
+	<a href="javascript:cal_single.download('{{ event.title }}')" class="Button Button--large Button--blue Button--titleCase" style="margin: 0 auto 1em;">{% with '2017-10-01' as starttime %}{{ starttime|load_datetime:"%Y-%m-%d"|date:"l, F jS" }}</a>
 
                {% if event.is_open_for_signup %}
 
