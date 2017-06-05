@@ -5,8 +5,49 @@
 
 
 {% block content %}
+{% if page.custom_fields.conference_call %}
+<!-- AddEvent -->
+<script type="text/javascript" src="https://addevent.com/libs/atc/1.6.1/atc.min.js" async defer></script>
+<!-- AddEvent Settings -->
+<script type="text/javascript">
+window.addeventasync = function(){
+    addeventatc.settings({
+        license    : "aIAOGjiztzJjzdCBtmZH28901",
+        mouse      : false,
+        css        : false,
+        outlook    : {show:true, text:"Outlook"},
+        google     : {show:true, text:"Google <em>(online)</em>"},
+        yahoo      : {show:false, text:"Yahoo <em>(online)</em>"},
+        outlookcom : {show:true, text:"Outlook.com <em>(online)</em>"},
+        appleical  : {show:true, text:"Apple Calendar"},
+        facebook   : {show:false, text:"Facebook Event"},
+        dropdown   : {order:"outlook,google,appleical"}
+    });
+};
+</script>
+<style type="text/css">
+/* AddEvent theme CSS
+---------------------------------------------------------------------- */
 
+/* The button */
+.addeventatc 							{min-width:170px;display:inline-block;position:relative;text-align:center;z-index:999998;background:#2285d7;cursor:pointer;color:#fff!important;font-size:1.1em;font-weight:bold;text-decoration:none;padding:12px 20px 12px 15px; margin-bottom:1em;}
+.addeventatc:hover 						{color:#fff;font-size:15px;text-decoration:none;background-color:#2c84f4;}
+.addeventatc:active 					{top:1px;}
+.addeventatc .arrow 					{width:15px;height:10px;position:absolute;top:50%;right:15px;margin-top:-5px;background:url(../gfx/icon-arrow-t1.png) no-repeat;}
+.addeventatc-selected 					{background-color:#2c84f4;}
+.addeventatc .start, .addeventatc .end, .addeventatc .timezone, .addeventatc .title, .addeventatc .description, .addeventatc .location, .addeventatc .organizer, .addeventatc .organizer_email, .addeventatc .facebook_event, .addeventatc .all_day_event, .addeventatc .date_format, .addeventatc .alarm_reminder, .addeventatc .recurring, .addeventatc .attendees, .addeventatc .calname, .addeventatc .uid, .addeventatc .status, .addeventatc .method, .addeventatc .client {display:none!important;}
 
+/* The drop down */
+.addeventatc_dropdown 					{width:215px;position:absolute;z-index:99999;padding:6px 0px 0px 0px;background:#fff;text-align:left;display:none;margin-top:2px;margin-left:-1px;border-top:1px solid #c8c8c8;border-right:1px solid #bebebe;border-bottom:1px solid #a8a8a8;border-left:1px solid #bebebe;-webkit-box-shadow:1px 3px 6px rgba(0,0,0,0.15);-moz-box-shadow:1px 3px 6px rgba(0,0,0,0.15);box-shadow:1px 3px 6px rgba(0,0,0,0.15);}
+.addeventatc_dropdown span 				{display:block;line-height:100%;background:#fff;text-decoration:none;font-size:14px;color:#333;padding:9px 10px 9px 40px;}
+.addeventatc_dropdown span:hover 		{background-color:#f4f4f4;color:#000;text-decoration:none;font-size:14px;}
+.addeventatc_dropdown em 				{color:#999!important;font-size:12px!important;}
+.addeventatc_dropdown .frs 				{background:#fff;color:#cacaca!important;cursor:pointer;font-size:9px!important;font-style:normal!important;font-weight:normal!important;line-height:110%!important;padding-left:10px;position:absolute;right:10px;text-align:right;text-decoration:none;top:5px;z-index:101;}
+.addeventatc_dropdown .frs:hover 		{color:#999!important;}
+.addeventatc_dropdown .copyx 			{height:21px;display:block;position:relative;cursor:default;}
+.addeventatc_dropdown .brx 				{height:1px;overflow:hidden;background:#e0e0e0;position:absolute;z-index:100;left:10px;right:10px;top:9px;}
+</style>
+{% endif %}
 
 {% if signup and not event.is_inactive %}
 
@@ -19,7 +60,7 @@
     <div class="ak-grid-row">
 
         <div class="ak-grid-col-12-of-12">
-
+		
             {% if campaign.use_title %}
 
                 <h2>Event: {{ event.title }}</h2>
@@ -71,6 +112,7 @@
                     
 
                 </li>
+                
 
             </ul>
             
@@ -103,7 +145,24 @@
             <div class="event-attendee-sidebar">
 
 <div class="ak-clearfix">
+{% if page.custom_fields.conference_call %}	
+<div title="Add to Calendar" class="addeventatc">
+    Add to Calendar
+    <span class="start">{{ event.starts_at|date:'m/d/Y H:i'}}</span>
+    <span class="end">{{ event.starts_at|date_add:'hours=1'|date:'m/d/Y H:i'}}</span>
+{% if page.custom_fields.conference_call %}<span class="timezone">America/New_York</span>{% endif %}
+    <span class="title">{{ event.title }}</span>
+    <span class="description">{{ event.public_description }}{% if page.custom_fields.conference_call %}<br /><br />To join the call, dial 1-888-585-9008. When prompted, enter conference room number 474-922-828.{% endif %}<br /><br />More details:{% if page.custom_fields.share_event_search %}{{ page.followup.share_url_tag }}{% else %} 
+        https://act.fcnl.org/event/{{ page.name }}/{{ event.id }}/signup{% endif %}</span>
+    <span class="location">{% if page.custom_fields.conference_call %}Conference call{% else %}{{ event.address1 }}, {{ event.city_etc }}{% endif %}</span>
+    <span class="organizer">FCNL</span>
+    <span class="organizer_email">support@fcnl.org</span>
+    <span class="date_format">MM/DD/YYYY</span>
+    <span class="calname">fcnl-{{ event.title|slugify }}</span>
+    <span class="client">aIAOGjiztzJjzdCBtmZH28901</span>
 
+</div>
+	{% endif %}
                {% if event.is_open_for_signup %}
 
         			{% include "./event_invite.html" %}
@@ -113,7 +172,7 @@
     		</div>
 
 
-              <!--  <div id="ak-map">
+              <div id="ak-map">
 
                     	<iframe src="//www.google.com/maps/embed/v1/place?q={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}
       &key=AIzaSyCqC-M0AKpFkQtigs-Eda4M4yvC0Xu8fKY
@@ -129,7 +188,7 @@
 
                     </form>
 
-                </div>-->
+                </div>
 
             </div> 
 
@@ -196,6 +255,7 @@
     actionkit.forms.initTafForm('taf');
 
 </script>
+
 
 
 
