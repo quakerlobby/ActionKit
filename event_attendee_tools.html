@@ -30,7 +30,7 @@ window.addeventasync = function(){
 ---------------------------------------------------------------------- */
 
 /* The button */
-.addeventatc 							{width:170px;display:inline-block;position:relative;text-align:center;z-index:999998;background:#2285d7;cursor:pointer;color:#fff!important;font-size:1.125em;font-weight:bold;text-decoration:none;padding:12px 20px 12px 15px; margin-bottom:1em;}
+.addeventatc 							{width:170px;display:inline-block;position:relative;text-align:center;z-index:999998;background:#2285d7;cursor:pointer;color:#fff!important;font-size:15px;font-weight:bold;text-decoration:none;padding:12px 20px 12px 15px; margin-bottom:1em;}
 .addeventatc:hover 						{color:#fff;font-size:15px;text-decoration:none;background-color:#2c84f4;}
 .addeventatc:active 					{top:1px;}
 .addeventatc .arrow 					{width:15px;height:10px;position:absolute;top:50%;right:15px;margin-top:-5px;background:url(../gfx/icon-arrow-t1.png) no-repeat;}
@@ -148,7 +148,7 @@ window.addeventasync = function(){
 <div title="Add to Calendar" class="addeventatc">
     Add to Calendar
     <span class="start">{{ event.starts_at|date:'m/d/Y H:i'}}</span>
-    <span class="end">{% if event.custom_fields.ends_at %}{{ event.starts_at|date:'m/d/Y'}}{{ event.custom_fields.ends_at }}{% else %}{{event.starts_at|date_add:'hours=1'|date:'m/d/Y H:i'}}{% endif %}</span>
+    <span class="end">{{ event.starts_at|date_add:'hours=1'|date:'m/d/Y H:i'}}</span>
 {% if page.custom_fields.conference_call %}<span class="timezone">America/New_York</span>{% endif %}
     <span class="title">{{ event.title }}</span>
     <span class="description">{{ event.public_description }}{% if page.custom_fields.conference_call %}<br /><br />To join the call, dial 1-888-585-9008. When prompted, enter conference room number 474-922-828.{% endif %}<br /><br />More details:{% if page.custom_fields.share_event_search %}{{ page.followup.share_url_tag }}{% else %} 
@@ -169,7 +169,7 @@ window.addeventasync = function(){
 
     		</div>
 
-{% if page.custom_fields.conference_call %}{% else %}
+
               <div id="ak-map">
 
                     	<iframe src="//www.google.com/maps/embed/v1/place?q={{ event.address1|urlencode }}, {{ event.city_etc|urlencode }}
@@ -187,7 +187,6 @@ window.addeventasync = function(){
                     </form>
 
                 </div>
-		      {% endif %}
 
             </div> 
 
