@@ -5,7 +5,7 @@
 
 
 {% block content %}
-{% if page.custom_fields.conference_call %}
+<!--{% if page.custom_fields.conference_call %}-->
 <!-- AddEvent -->
 <script type="text/javascript" src="https://addevent.com/libs/atc/1.6.1/atc.min.js" async defer></script>
 <!-- AddEvent Settings -->
@@ -47,7 +47,7 @@ window.addeventasync = function(){
 .addeventatc_dropdown .copyx 			{height:21px;display:block;position:relative;cursor:default;}
 .addeventatc_dropdown .brx 				{height:1px;overflow:hidden;background:#e0e0e0;position:absolute;z-index:100;left:10px;right:10px;top:9px;}
 </style>
-{% endif %}
+<!--{% endif %}-->
 
 {% if signup and not event.is_inactive %}
 
@@ -145,7 +145,7 @@ window.addeventasync = function(){
             <div class="event-attendee-sidebar">
 
 <div class="ak-clearfix">
-{% if page.custom_fields.conference_call %}	
+<!--{% if page.custom_fields.conference_call %}	-->
 <div title="Add to Calendar" class="addeventatc">
     Add to Calendar
     <span class="start">{{ event.starts_at|date:'m/d/Y H:i'}}</span>
@@ -162,7 +162,7 @@ window.addeventasync = function(){
     <span class="client">aIAOGjiztzJjzdCBtmZH28901</span>
 
 </div>
-	{% endif %}
+	<!--{% endif %}-->
                {% if event.is_open_for_signup %}
 
         			{% include "./event_invite.html" %}
