@@ -14,13 +14,13 @@ window.addeventasync = function(){
     addeventatc.settings({
         license    : "aIAOGjiztzJjzdCBtmZH28901",
         mouse      : false,
-        css        : true,
+        css        : false,
         outlook    : {show:true, text:"Outlook"},
         google     : {show:true, text:"Google <em>(online)</em>"},
-        yahoo      : {show:true, text:"Yahoo <em>(online)</em>"},
+        yahoo      : {show:false, text:"Yahoo <em>(online)</em>"},
         outlookcom : {show:true, text:"Outlook.com <em>(online)</em>"},
         appleical  : {show:true, text:"Apple Calendar"},
-        facebook   : {show:true, text:"Facebook Event"},
+        facebook   : {show:false, text:"Facebook Event"},
         dropdown   : {order:"outlook,google,appleical"}
     });
 };
@@ -147,24 +147,17 @@ window.addeventasync = function(){
 	
 <div title="Add to Calendar" class="addeventatc">
     Add to Calendar
-    <span class="start">06/19/2017 09:00 AM</span>
-    <span class="end">06/19/2017 11:00 AM</span>
-    <span class="timezone">America/New_York</span>
-    <span class="title">Summary of the event</span>
-    <span class="description">Description of the event</span>
-    <span class="location">Location of the event</span>
-    <span class="organizer">Organizer</span>
-    <span class="organizer_email">Organizer e-mail</span>
-    <span class="facebook_event">https://www.facebook.com/events/703782616363133</span>
-    <span class="all_day_event">true</span>
+    <span class="start">{{ event.starts_at|date:'m/d/Y H:i'}}</span>
+    <span class="end">{{ event.starts_at|date_add:'hours=1'|date:'m/d/Y H:i'}}</span>
+    <span class="title">{{ event.title }}</span>
+    <span class="description">{{ event.public_description }}</span>
+    <span class="location">{{ event.address1 }}</span>
+    <span class="organizer">FCNL</span>
+    <span class="organizer_email">support@fcnl.org</span>
     <span class="date_format">MM/DD/YYYY</span>
-    <span class="alarm_reminder">15</span>
-    <span class="recurring">FREQ=DAILY;COUNT=10</span>
-    <span class="calname">Custom event filename</span>
-    <span class="uid">event123</span>
-    <span class="status">confirmed</span>
+    <span class="calname">fcnl-{{ event.title|slugify }}</span>
     <span class="client">aIAOGjiztzJjzdCBtmZH28901</span>
-    <span class="method">REQUEST</span>
+
 </div>
                {% if event.is_open_for_signup %}
 
