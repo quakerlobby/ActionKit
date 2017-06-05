@@ -149,11 +149,12 @@ window.addeventasync = function(){
     Add to Calendar
     <span class="start">{{ event.starts_at|date:'m/d/Y H:i'}}</span>
     <span class="end">{{ event.starts_at|date_add:'hours=1'|date:'m/d/Y H:i'}}</span>
+{% if page.custom_fields.conference_call %}<span class="timezone">America/New_York</span>{% endif %}
     <span class="title">{{ event.title }}</span>
-    <span class="description">{{ event.public_description }}</span>
-    <span class="location">{{ event.address1 }}</span>
+    <span class="description">{{ event.public_description }}{% if page.custom_fields.conference_call %}<br />To join the call, dial 1-888-585-9008. When prompted, enter conference room number 474-922-828.{% endif %}<br />More details:{% if page.custom_fields.share_event_search %}{{ page.followup.share_url_tag }}{% else %} 
+        https://act.fcnl.org/event/{{ page.name }}/{{ event.id }}/signup{% endif %}</span>
+    <span class="location">{% if page.custom_fields.conference_call %}Conference call{% else %}{{ event.address1 }}, {{ event.city_etc }}{% endif %}</span>
     <span class="organizer">FCNL</span>
-    <span class="organizer_email">support@fcnl.org</span>
     <span class="date_format">MM/DD/YYYY</span>
     <span class="calname">fcnl-{{ event.title|slugify }}</span>
     <span class="client">aIAOGjiztzJjzdCBtmZH28901</span>
