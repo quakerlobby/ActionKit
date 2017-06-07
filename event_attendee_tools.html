@@ -6,6 +6,7 @@
 
 {% block content %}
 {% if page.custom_fields.conference_call %}
+
 <!-- AddEvent -->
 <script type="text/javascript" src="https://addevent.com/libs/atc/1.6.1/atc.min.js" async defer></script>
 <!-- AddEvent Settings -->
@@ -30,11 +31,13 @@ window.addeventasync = function(){
 ---------------------------------------------------------------------- */
 
 /* The button */
+
 .addeventatc 							{min-width:170px;display:inline-block;position:relative;text-align:center;z-index:999998;background:#2285d7;cursor:pointer;color:#fff!important;font-size:1.1em;font-weight:bold;text-decoration:none;padding:12px 20px 12px 15px; margin-bottom:1em;}
-.addeventatc:hover 						{color:#fff;font-size:15px;text-decoration:none;background-color:#2c84f4;}
+.addeventatc:hover 						{color:#fff;font-size:1.1em;text-decoration:none;background-color:#0365b5;}
+
 .addeventatc:active 					{top:1px;}
-.addeventatc .arrow 					{width:15px;height:10px;position:absolute;top:50%;right:15px;margin-top:-5px;background:url(../gfx/icon-arrow-t1.png) no-repeat;}
-.addeventatc-selected 					{background-color:#2c84f4;}
+/*.addeventatc .arrow 					{width:15px;height:10px;position:absolute;top:50%;right:15px;margin-top:-5px;background:url(../gfx/icon-arrow-t1.png) no-repeat;}*/
+.addeventatc-selected 					{background-color:#0365b5;}
 .addeventatc .start, .addeventatc .end, .addeventatc .timezone, .addeventatc .title, .addeventatc .description, .addeventatc .location, .addeventatc .organizer, .addeventatc .organizer_email, .addeventatc .facebook_event, .addeventatc .all_day_event, .addeventatc .date_format, .addeventatc .alarm_reminder, .addeventatc .recurring, .addeventatc .attendees, .addeventatc .calname, .addeventatc .uid, .addeventatc .status, .addeventatc .method, .addeventatc .client {display:none!important;}
 
 /* The drop down */
@@ -152,18 +155,17 @@ window.addeventasync = function(){
     <span class="end">{{ event.starts_at|date_add:'hours=1'|date:'m/d/Y H:i'}}</span>
 {% if page.custom_fields.conference_call %}<span class="timezone">America/New_York</span>{% endif %}
     <span class="title">{{ event.title }}</span>
-    <span class="description">{{ event.public_description }}{% if page.custom_fields.conference_call %}<br /><br />To join the call, dial 1-888-585-9008. When prompted, enter conference room number 474-922-828.{% endif %}<br /><br />More details:{% if page.custom_fields.share_event_search %}{{ page.followup.share_url_tag }}{% else %} 
-        https://act.fcnl.org/event/{{ page.name }}/{{ event.id }}/signup{% endif %}</span>
+    <span class="description">{{ event.public_description }}{% if page.custom_fields.conference_call %}<br /><br />To join the call, dial 1-888-585-9008. When prompted, enter conference room number 474-922-828.{% endif %}</span>
     <span class="location">{% if page.custom_fields.conference_call %}Conference call{% else %}{{ event.address1 }}, {{ event.city_etc }}{% endif %}</span>
     <span class="organizer">FCNL</span>
-    <span class="organizer_email">support@fcnl.org</span>
+    <span class="organizer_email">fcnlinfo@fcnl.org</span>
     <span class="date_format">MM/DD/YYYY</span>
     <span class="calname">fcnl-{{ event.title|slugify }}</span>
     <span class="client">aIAOGjiztzJjzdCBtmZH28901</span>
 
 </div>
-	{% endif %}
-               {% if event.is_open_for_signup %}
+{% endif %}
+	{% if event.is_open_for_signup %}
 
         			{% include "./event_invite.html" %}
 
