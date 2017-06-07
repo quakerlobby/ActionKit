@@ -5,6 +5,7 @@
 
 
 {% block content %}
+{% if page.custom_fields.conference_call %}
 
 <!-- AddEvent -->
 <script type="text/javascript" src="https://addevent.com/libs/atc/1.6.1/atc.min.js" async defer></script>
@@ -49,6 +50,7 @@ window.addeventasync = function(){
 .addeventatc_dropdown .copyx 			{height:21px;display:block;position:relative;cursor:default;}
 .addeventatc_dropdown .brx 				{height:1px;overflow:hidden;background:#e0e0e0;position:absolute;z-index:100;left:10px;right:10px;top:9px;}
 </style>
+{% endif %}
 
 {% if signup and not event.is_inactive %}
 
@@ -146,15 +148,14 @@ window.addeventasync = function(){
             <div class="event-attendee-sidebar">
 
 <div class="ak-clearfix">
-	
+{% if page.custom_fields.conference_call %}	
 <div title="Add to Calendar" class="addeventatc">
     Add to Calendar
     <span class="start">{{ event.starts_at|date:'m/d/Y H:i'}}</span>
     <span class="end">{{ event.starts_at|date_add:'hours=1'|date:'m/d/Y H:i'}}</span>
 {% if page.custom_fields.conference_call %}<span class="timezone">America/New_York</span>{% endif %}
     <span class="title">{{ event.title }}</span>
-    <span class="description">{{ event.public_description }}{% if page.custom_fields.conference_call %}<br /><br />To join the call, dial 1-888-585-9008. When prompted, enter conference room number 474-922-828.{% endif %}<br /><br />More details:{% if page.custom_fields.share_event_search %}{{ page.followup.share_url_tag }}{% else %} 
-        http://{% client_domain %}/event/{{ action.event.campaign.local_name }}/{{ action.event.id }}/attend/?i={{ user.password_change_token }}{% endif %}</span>
+    <span class="description">{{ event.public_description }}{% if page.custom_fields.conference_call %}<br /><br />To join the call, dial 1-888-585-9008. When prompted, enter conference room number 474-922-828.{% endif %}</span>
     <span class="location">{% if page.custom_fields.conference_call %}Conference call{% else %}{{ event.address1 }}, {{ event.city_etc }}{% endif %}</span>
     <span class="organizer">FCNL</span>
     <span class="organizer_email">fcnlinfo@fcnl.org</span>
@@ -163,7 +164,8 @@ window.addeventasync = function(){
     <span class="client">aIAOGjiztzJjzdCBtmZH28901</span>
 
 </div>
-               {% if event.is_open_for_signup %}
+{% endif %}
+	{% if event.is_open_for_signup %}
 
         			{% include "./event_invite.html" %}
 
