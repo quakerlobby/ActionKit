@@ -52,7 +52,7 @@
 <input type="checkbox" id="id_list_1" name="lists" value="1" checked />
 <label for="id_list_1" style="padding-left:30px;padding-top:0;"> Send me action alerts.</label>
 
-                <button type="submit" class="ak-styled-submit-button">Send Letter</button>
+                <button type="submit" class="ak-styled-submit-button">{% if page.custom_fields.button_text %}{{ page.custom_fields.button_text }}{% else %}Send Letter{% endif %}</button>
 
             </div>
 
