@@ -22,7 +22,42 @@
   Enjoy!
 
 {% endcomment %}
-<script>
+
+<p id="suggestion"></p>
+
+
+
+
+{% field_order name email prefix first_name middle_name last_name suffix country address1 address2 city state zip region postal phone %}
+{% hide_by_default prefix first_name middle_name last_name suffix country phone address1 address2 city state region postal %}
+
+{% for field in user_fields %}
+    <div id="id_{{ field.field_name }}_box" class="{% if field.field_name|is_in:context.required %}required{% endif %}">
+        <label for="id_{{ field.field_name }}">
+            {{ field.label_text }}{% if field.field_name|is_in:context.required %}<span class="ak-required-flag">*</span>{% endif %}
+        </label>
+        {% switch field.field_name %}
+            {% case 'country' %}
+                {% include "./country_select.html" %}
+            {% case 'state' %} 
+                {% include "./state_select.html" %}
+            {% else %}
+                {{ field.input_html }}
+        {% endswitch %}
+    </div>
+{% endfor %}
+
+{% if 'country'|is_in:fields %}
+    <input type="hidden" name="auto_country" value="1">
+    <style type="text/css">
+        /* Ensure that, if there's no JavaScript, the global-friendly 
+         * fields show rather than the US-only ones */
+        #id_zip_box, #id_state_box { display: none; }
+    </style>
+{% else %}
+    <input type="hidden" name="country" value="United States">
+{% endif %}
+<script type="text/javascript">
   /* globals define, module, jQuery */
 
 /*
@@ -346,73 +381,40 @@ if (typeof window !== 'undefined' && window.jQuery) {
       Mailcheck.run(opts);
     };
   })(jQuery);
-        }</script>
-<p id="suggestion"></p>
+        }
+// Getting it to actually show up
+            var $email = $('#id_email');
+            var $hint = $("#hint");
 
-<script>
-var $email = $('#id_email');
-var $hint = $("#hint");
+            $email.on('blur',function() {
+                $hint.css('display', 'none').empty();
+                $(this).mailcheck({
+                    suggested: function(element, suggestion) {
+                        if(!$hint.html()) {
+                            // First error - fill in/show entire hint element
+                            var suggestion = "Did you mean <span class='suggestion'>" +
+                                "<span class='address'>" + suggestion.address + "</span>"
+                                + "@<a href='#' class='domain'>" + suggestion.domain + 
+                                "</a></span>?";
+                              
+                            $hint.html(suggestion).fadeIn(150);
+                        } else {
+                            // Subsequent errors
+                            $(".address").html(suggestion.address);
+                            $(".domain").html(suggestion.domain);
+                        }
+                    }
+                });
+            });
 
-$email.on('blur',function() {
-  $hint.css('display', 'none'); // Hide the hint
-  $(this).mailcheck({
-    suggested: function(element, suggestion) {
-      if(!$hint.html()) {
-        // First error - fill in/show entire hint element
-        var suggestion = "Did you mean <span class='suggestion'>" +
-                          "<span class='address'>" + suggestion.address + "</span>"
-                          + "@<a href='#' class='domain'>" + suggestion.domain + 
-                          "</a></span>?";
-                          
-        $hint.html(suggestion).fadeIn(150);
-      } else {
-        // Subsequent errors
-        $(".address").html(suggestion.address);
-        $(".domain").html(suggestion.domain);
-      }
-    }
-  });
-});
-	// After our other code:
-$hint.on('click', '.domain', function() {
-  // On click, fill in the field with the suggestion and remove the hint
-  $email.val($(".suggestion").text());
-  $hint.fadeOut(200, function() {
-    $(this).empty();
-  });
-  return false;
-});
+            $hint.on('click', '.domain', function() {
+                // On click, fill in the field with the suggestion and remove the hint
+                $email.val($(".suggestion").text());
+                $hint.fadeOut(200, function() {
+                    $(this).empty();
+                });
+                return false;
+            });	
 </script>
-
-
-{% field_order name email prefix first_name middle_name last_name suffix country address1 address2 city state zip region postal phone %}
-{% hide_by_default prefix first_name middle_name last_name suffix country phone address1 address2 city state region postal %}
-
-{% for field in user_fields %}
-    <div id="id_{{ field.field_name }}_box" class="{% if field.field_name|is_in:context.required %}required{% endif %}">
-        <label for="id_{{ field.field_name }}">
-            {{ field.label_text }}{% if field.field_name|is_in:context.required %}<span class="ak-required-flag">*</span>{% endif %}
-        </label>
-        {% switch field.field_name %}
-            {% case 'country' %}
-                {% include "./country_select.html" %}
-            {% case 'state' %} 
-                {% include "./state_select.html" %}
-            {% else %}
-                {{ field.input_html }}
-        {% endswitch %}
-    </div>
-{% endfor %}
-
-{% if 'country'|is_in:fields %}
-    <input type="hidden" name="auto_country" value="1">
-    <style type="text/css">
-        /* Ensure that, if there's no JavaScript, the global-friendly 
-         * fields show rather than the US-only ones */
-        #id_zip_box, #id_state_box { display: none; }
-    </style>
-{% else %}
-    <input type="hidden" name="country" value="United States">
-{% endif %}
 
 {% endfilter %}
