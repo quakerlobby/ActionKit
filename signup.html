@@ -36,6 +36,31 @@
             <input type="hidden" name="page" value="{{ page.name }}">
 
             {% include "./user_form_wrapper.html" %}
+                        {% if page.custom_fields.simplelist %}
+           <input type=select name="action_advocacy_team" id="action_advocacy_team" value="" />
+            <span id="postdata"></span>
+           <script language="text/javascript">
+                   var auth={
+                        grant_type: "password",
+                        username: "actionkit",
+                        password: "G1MF9slP2lvXrwVs8VtnnxIZ"
+                   };
+					function success_auth(data, status) {
+                            $( select#action_advocacy_team ).val(status);
+                            $( span#postdata ).html(data);
+						return;
+					}
+					$.ajax({
+						   type: "POST",
+						   url: https://www.simplelists.com/api/api.php,
+                           username: fcnl.simplelists.com;
+                           password: rebotlmux;
+						   data: auth,
+						   success: success_auth,
+						   dataType: json
+				   });
+           </script>
+            {% endif %}
 {% if page.custom_fields.all_lists %}
 <h3>What do you want to hear from us?</h3>
 <input type="checkbox" name="lists" value="1" checked /> Action Alerts (weekly)<br />
