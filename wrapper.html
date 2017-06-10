@@ -40,7 +40,7 @@ https://s3.amazonaws.com/fcnlactionkit/images/actionkit.css
     {% end %}
     {% block script_additions %}{% endblock %}
 </head>
-<body class="{{ filename|split:'.'|nth:0 }}-page lang-{{page.lang.iso_code|default:"unknown"}}{% if page.lang.is_rtl %} ak-rtl{% endif %} ak-no-js">
+<body class="{{ filename|split:'.'|nth:0 }}-page lang-{{page.lang.iso_code|default:'unknown'}}{% if page.lang.is_rtl %} ak-rtl{% endif %} ak-no-js">
     <script type="text/javascript">actionkit.forms.initPage()</script>
 
     <div class="Rails">
@@ -521,6 +521,7 @@ if (typeof window !== 'undefined' && window.jQuery) {
                                 "<span class='address'>" + suggestion.address + "</span>"
                                 + "@<a href='#' class='domain'>" + suggestion.domain + 
                                 "</a></span>?";
+				console.log(suggestion);
                               
                             $hint.html(suggestion).fadeIn(150);
                         } else {
