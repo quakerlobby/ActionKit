@@ -178,8 +178,6 @@ https://s3.amazonaws.com/fcnlactionkit/images/actionkit.css
         actionkit.forms.contextRoot = '/context/';
         actionkit.forms.initForm('act');
     </script>
-    <script src="mailcheck.js"></script>
-  
     {% endblock %}
 
     {% if analytics_key %}
@@ -191,7 +189,8 @@ https://s3.amazonaws.com/fcnlactionkit/images/actionkit.css
 
     ga('create', '{{ analytics_key }}', 'auto');
     ga('send', 'pageview');
-    </script>  {% endif %}
+    </script>
+    {% endif %}
 
 </body>
 </html>
