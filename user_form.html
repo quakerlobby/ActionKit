@@ -23,7 +23,7 @@
 
 {% endcomment %}
 
-<p id="hint"></p>
+
 
 
 
@@ -41,6 +41,8 @@
                 {% include "./country_select.html" %}
             {% case 'state' %} 
                 {% include "./state_select.html" %}
+            {% case 'email' %} 
+           <div id="hint"></div>
             {% else %}
                 {{ field.input_html }}
         {% endswitch %}
@@ -57,5 +59,6 @@
 {% else %}
     <input type="hidden" name="country" value="United States">
 {% endif %}
+<p id="hint"></p>
 
 {% endfilter %}
