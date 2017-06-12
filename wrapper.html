@@ -517,23 +517,18 @@ if (typeof window !== 'undefined' && window.jQuery) {
                     suggested: function(element, suggestion) {
                         if(!$hint.html()) {
                             // First error - fill in/show entire hint element
-                            var suggestion = "Did you mean <span class='suggestion'>" +
-                                "<span class='address'>" + suggestion.address + "</span>"
-                                + "@<a href='#' class='domain'>" + suggestion.domain + 
-                                "</a></span>?";
-				console.log(suggestion);
+                            var suggestion = "Did you mean <a href='#' class='suggestion'>" + suggestion.full + "</a>?";
                               
                             $hint.html(suggestion).fadeIn(150);
                         } else {
                             // Subsequent errors
-                            $(".address").html(suggestion.address);
-                            $(".domain").html(suggestion.domain);
+                            $(".suggestion").html(suggestion.full);
                         }
                     }
                 });
             });
 
-            $hint.on('click', '.domain', function() {
+            $hint.on('click', '.suggestion', function() {
                 // On click, fill in the field with the suggestion and remove the hint
                 $email.val($(".suggestion").text());
                 $hint.fadeOut(200, function() {
