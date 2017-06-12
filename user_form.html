@@ -23,6 +23,11 @@
 
 {% endcomment %}
 
+
+
+
+
+
 {% field_order name email prefix first_name middle_name last_name suffix country address1 address2 city state zip region postal phone %}
 {% hide_by_default prefix first_name middle_name last_name suffix country phone address1 address2 city state region postal %}
 
@@ -39,6 +44,9 @@
             {% else %}
                 {{ field.input_html }}
         {% endswitch %}
+      {% if field.field_name == 'email' %}
+                <div id="hint"></div>
+{% endif %}
     </div>
 {% endfor %}
 
@@ -52,5 +60,6 @@
 {% else %}
     <input type="hidden" name="country" value="United States">
 {% endif %}
+<p id="hint"></p>
 
 {% endfilter %}
