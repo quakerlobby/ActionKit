@@ -23,7 +23,7 @@
 
 {% endcomment %}
 
-<p id="hint"></p>
+
 
 
 
@@ -44,6 +44,9 @@
             {% else %}
                 {{ field.input_html }}
         {% endswitch %}
+      {% if field.field_name == 'email' %}
+                <div id="hint"></div>
+{% endif %}
     </div>
 {% endfor %}
 
@@ -57,5 +60,6 @@
 {% else %}
     <input type="hidden" name="country" value="United States">
 {% endif %}
+<p id="hint"></p>
 
 {% endfilter %}
