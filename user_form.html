@@ -46,6 +46,9 @@
             {% else %}
                 {{ field.input_html }}
         {% endswitch %}
+      {% if field.field_name == 'email' %}
+                <div id="hint"></div>
+{% endif %}
     </div>
 {% endfor %}
 
