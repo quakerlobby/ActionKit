@@ -1,9 +1,10 @@
 {% extends "./wrapper.html" %}{% load actionkit_tags %}
 {% block content %}
 <script type="text/javascript">
-$(".ak-target-contact").ready(function() {
+$(document).ready(function() {
+	$('.ak-target-contact').click(
    // if($(window).width() > 400) {
-   $(function(){
+   function(){
        $.each($(".ak-target-contact"), function () {
            //replace all instances of -
             var officePhoneNumber = $(this).text().replace(/-/g,'');
