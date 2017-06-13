@@ -52,9 +52,13 @@
 					}
 					$.ajax({
 						   type: "POST",
-						   url: https://www.simplelists.com/api/api.php,
-                           username: fcnl.simplelists.com;
-                           password: rebotlmux;
+						   url: https://www.simplelists.com/token/api.php,
+                           xhrFields: {
+                                withCredentials: true
+                            },
+                            headers: {
+                                'Authorization': 'Basic ' + btoa('fcnl.simplelists.com:rebotlmux')
+                            },
 						   data: auth,
 						   success: success_auth,
 						   dataType: json
