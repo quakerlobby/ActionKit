@@ -1,5 +1,12 @@
 {% extends "./wrapper.html" %}{% load actionkit_tags %}
 {% block content %}
+<script type="text/javascript">
+$(document).ready(function() {
+    if($(window).width() > 400) {
+    $('.ak-target-contact').html('<a href="tel: ' + $.trim($('.ak-target-contact').text()) + '"> ' + $('.ak-target-contact').text() + '</a>');
+}});
+
+</script>
 
 <div class="ak-grid-row">
     <div class="ak-grid-col-12-of-12">
@@ -121,12 +128,5 @@
     </div>
    
 </form>
-<script type="text/javascript">
-$(document).ready(function() {
-    if($(window).width() > 400) {
-    $('.ak-target-contact').html('<a href="tel: ' + $.trim($('.ak-target-contact').text()) + '"> ' + $('.ak-target-contact').text() + '</a>');
-}});
-
-</script>
 
 {% endblock %}
