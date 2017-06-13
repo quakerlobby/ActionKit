@@ -121,5 +121,12 @@
     </div>
    
 </form>
+<script type="text/javascript">
+$(document).ready(function() {
+    if($(window).width() > 400) {
+    $('.ak-target-contact').html('<a href="tel: ' + $.trim($('.ak-target-contact').text()) + '"> ' + $('.ak-target-contact').text() + '</a>');
+}});
+
+</script>
 
 {% endblock %}
