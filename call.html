@@ -2,20 +2,12 @@
 {% block content %}
 <script type="text/javascript">
 $(document).ready(function() {
-	$('.ak-target-contact').click(
-   // if($(window).width() > 400) {
-   function(){
-       $.each($(".ak-target-contact"), function () {
-           //replace all instances of -
-            var officePhoneNumber = $(this).text().replace(/-/g,'');
-    var link = $('<a />', {class: 'phone-link', href: 'tel:'+parseInt(officePhoneNumber)});
-           $(this).wrapInner(link);
-	       console.log(link);
-        });
+    $('.ak-target-contact').click(function(){
+        var officePhoneNumber = $(this).text().replace(/-/g,'').replace(/\(/,'').replace(/\)/,'').replace(/\s/,'');
+        var link = $('<a />', {class:'phone-link', href:'tel:'+parseInt(officePhoneNumber)});
+        $(this).wrapInner(link);
+    });
 });
-}
-		//  }
-		 );
 
 </script>
 
