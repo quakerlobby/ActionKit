@@ -40,29 +40,26 @@
            <input type=select name="action_advocacy_team" id="action_advocacy_team" value="" />
             <span id="postdata"></span>
            <script language="text/javascript">
-                   var auth={
-                        grant_type: "password",
-                        username: "actionkit",
-                        password: "G1MF9slP2lvXrwVs8VtnnxIZ"
-                   };
 					function success_auth(data, status) {
                             $( select#action_advocacy_team ).val(status);
                             $( span#postdata ).html(data);
+                            console.log("success?\n" + $data + "\n" $status);
 						return;
 					}
-					$.ajax({
-						   type: "POST",
-						   url: https://www.simplelists.com/token/api.php,
-                           xhrFields: {
-                                withCredentials: true
+                    $(function() {
+                            console.log("try post");
+                            $.post( https://www.simplelists.com/token/api.php,
+                            {
+                                grant_type: "password",
+                                username: "actionkit",
+                                password: "G1MF9slP2lvXrwVs8VtnnxIZ"
                             },
-                            headers: {
-                                'Authorization': 'Basic ' + btoa('fcnl.simplelists.com:rebotlmux')
-                            },
-						   data: auth,
-						   success: success_auth,
-						   dataType: json
-				   });
+                            json,
+                            {
+                                username: "fcnl.simplelists.com",
+                                password: "rebotlmux"
+                            }
+                    );}
            </script>
             {% endif %}
 {% if page.custom_fields.all_lists %}
