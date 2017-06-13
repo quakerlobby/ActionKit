@@ -46,7 +46,8 @@
                             console.log("success?\n" + $data + "\n" $status);
 						return;
 					}
-                    $(function() {
+
+                    $( function() {
                             console.log("try post");
                             $.post( https://www.simplelists.com/token/api.php,
                             {
@@ -59,7 +60,8 @@
                                 username: "fcnl.simplelists.com",
                                 password: "rebotlmux"
                             }
-                    );}
+                        );
+                    )};
            </script>
             {% endif %}
 {% if page.custom_fields.all_lists %}
