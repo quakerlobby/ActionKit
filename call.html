@@ -3,8 +3,14 @@
 <script type="text/javascript">
 $(document).ready(function() {
    // if($(window).width() > 400) {
-    $('.ak-target-contact').html('<a href="tel: ' + $.trim($('.ak-target-contact').text()) + '"> ' + $('.ak-target-contact').text() + '</a>');
-console.log('<a href="tel: ' + $.trim($('.ak-target-contact').text()) + '"> ' + $('.ak-target-contact').text() + '</a>');
+   $(function(){
+       $.each($(".ak-target-contact"), function () {
+           //replace all instances of -
+            var officePhoneNumber = $(this).text().replace(/-/g,'');
+    var link = $('<a />', {class: 'phone-link', href: 'tel:'+parseInt(officePhoneNumber)});
+           $(this).wrapInner(link);
+        });
+});
 }
 		//  }
 		 );
