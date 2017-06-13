@@ -9,6 +9,7 @@ $(".ak-target-contact").ready(function() {
             var officePhoneNumber = $(this).text().replace(/-/g,'');
     var link = $('<a />', {class: 'phone-link', href: 'tel:'+parseInt(officePhoneNumber)});
            $(this).wrapInner(link);
+	       console.log(link);
         });
 });
 }
