@@ -13,8 +13,7 @@ $(document).ready(function() {
   actionkit.forms.onTargets = function () {
 	  var $officePhone = $('.ak-target-contact');
 	  $officePhone = $(this).text().replace(/-/g,'').replace(/\(/,'').replace(/\)/,'').replace(/\s/,'');
-	  var link = $('<a />', {class:'phone-link', href:'tel:'+ parseInt($officePhone)});
-	  $officePhone.wrapInner(link);
+	  $officePhone = $('<a class:"phone-link" href="tel:' + parseInt($(this)) + '">' + $(this) + '</a>');
       /*var checkboxes = actionkit.context.targets.checkboxes_html;
     checkboxes = checkboxes.replace(/{class="ak-target-contact">}{*?}{<\/}/g,
       function ( match, pre, num, post ) {
