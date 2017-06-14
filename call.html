@@ -11,15 +11,16 @@
 $(document).ready(function() {
   var original_onTargets = actionkit.forms.onTargets;
   actionkit.forms.onTargets = function () {
-      var officePhoneNumber = $('.ak-target-contact').text().replace(/-/g,'').replace(/\(/,'').replace(/\)/,'').replace(/\s/,'');
-        var link = $('<a />', {class:'phone-link', href:'tel:'+parseInt(officePhoneNumber)});
-        $('.ak-target-contact').wrapInner(link);
+      var checkboxes = actionkit.context.targets.checkboxes_html;
+    checkboxes = checkboxes.replace(/{class="ak-target-contact">}{*?}{<\/}/g,
+      function ( match, pre, num, post ) {
+        return pre + '<a href="tel:' + num + '">' + num + '</a>' + post
       } 
-    );  
+    );
+    actionkit.context.targets.checkboxes_html = checkboxes;  
     original_onTargets();
   };
 });
-
 
 </script>
 
