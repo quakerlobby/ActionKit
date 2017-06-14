@@ -1,34 +1,24 @@
 {% extends "./wrapper.html" %}{% load actionkit_tags %}
 {% block content %}
 <script type="text/javascript">
-/*$(document).ready(function() {
-    $('.ak-target-contact').click(function(){
-        var officePhoneNumber = $(this).text().replace(/-/g,'').replace(/\(/,'').replace(/\)/,'').replace(/\s/,'');
-        var link = $('<a />', {class:'phone-link', href:'tel:'+parseInt(officePhoneNumber)});
-        $(this).wrapInner(link);
-    });
-});*/
 $(document).ready(function() {
-  var original_onTargets = actionkit.forms.onTargets();
+  var original_onTargets = actionkit.forms.onTargets;
   actionkit.forms.onTargets = function () {
-	  $.each($(".ak-target-contact"), function () {
-            //replace all instances of '-'
-            var jPhoneNumber = $(this).text().replace(/-/g,'');
-            var link = $('<a href="tel:'+ jPhoneNumber + '">' + jPhoneNumber + '</a>');
-		  $(this).text = link;
-		  console.log(jPhoneNumber);
-        });
-	  };
-      /*var checkboxes = actionkit.context.targets.checkboxes_html;
-    checkboxes = checkboxes.replace(/{class="ak-target-contact">}{*?}{<\/}/g,
+
+      var checkboxes = actionkit.context.targets.checkboxes_html;
+    checkboxes = checkboxes.replace(/(class="ak-target-contact">)(*?)(<)/g,
       function ( match, pre, num, post ) {
         return pre + '<a href="tel:' + num + '">' + num + '</a>' + post
       } 
+				    
     );
-    actionkit.context.targets.checkboxes_html = checkboxes;*/  
-	  original_onTargets(); 
-	
-  });
+    console.log(checkboxes);
+    actionkit.context.targets.checkboxes_html = checkboxes;  
+	  
+    original_onTargets();
+  };
+});
+
 </script>
 
 <div class="ak-grid-row">
