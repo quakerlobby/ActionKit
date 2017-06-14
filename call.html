@@ -14,9 +14,9 @@ $(document).ready(function() {
 	  $.each($(".ak-target-contact"), function () {
             //replace all instances of '-'
             var jPhoneNumber = $(this).text().replace(/-/g,'');
-            var link = $('<a />', {class: 'jPhoneLink', href: 'tel:'+jPhoneNumber});
-
-           $(this).wrapInner(link);
+            var link = $('<a href="tel:'+ jPhoneNumber + '">' + jPhoneNumber + '</a>');
+		  $(this).text = link;
+		  console.log(jPhoneNumber);
         });
 	  };
       /*var checkboxes = actionkit.context.targets.checkboxes_html;
@@ -27,6 +27,7 @@ $(document).ready(function() {
     );
     actionkit.context.targets.checkboxes_html = checkboxes;*/  
 	  original_onTargets(); 
+	
   });
 </script>
 
