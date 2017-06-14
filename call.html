@@ -4,6 +4,7 @@
 $(document).ready(function() {
   var original_onTargets = actionkit.forms.onTargets;
   actionkit.forms.onTargets = function () {
+
       var checkboxes = actionkit.context.targets.checkboxes_html;
     checkboxes = checkboxes.replace(/(class="ak-target-contact">)(*?)(<)/g,
       function ( match, pre, num, post ) {
