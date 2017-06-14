@@ -11,14 +11,15 @@
 $(document).ready(function() {
   var original_onTargets = actionkit.forms.onTargets;
   actionkit.forms.onTargets = function () {
-      var checkboxes = actionkit.context.targets.checkboxes_html;
+      /*var checkboxes = actionkit.context.targets.checkboxes_html;
     checkboxes = checkboxes.replace(/{class="ak-target-contact">}{*?}{<\/}/g,
       function ( match, pre, num, post ) {
         return pre + '<a href="tel:' + num + '">' + num + '</a>' + post
       } 
     );
     actionkit.context.targets.checkboxes_html = checkboxes;  
-    original_onTargets();
+    original_onTargets();*/ 
+	  console.log("This code is firing");
   };
 });
 
