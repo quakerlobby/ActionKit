@@ -9,7 +9,7 @@
     });
 });*/
 $(document).ready(function() {
-  var original_onTargets = actionkit.forms.onTargets;
+  var original_onTargets = actionkit.forms.onTargets();
   actionkit.forms.onTargets = function () {
 	  $.each($(".ak-target-contact"), function () {
             //replace all instances of '-'
