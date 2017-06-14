@@ -8,20 +8,18 @@
         $(this).wrapInner(link);
     });
 });*/
-/*$(document).ready(function() {
+$(document).ready(function() {
   var original_onTargets = actionkit.forms.onTargets;
   actionkit.forms.onTargets = function () {
-      var checkboxes = actionkit.context.targets.checkboxes_html;
-    checkboxes = checkboxes.replace(/(class="ak-target-contact">)(*?)(<)/g,
-      function ( match, pre, num, post ) {
-        return pre + '<a href="tel:' + num + '">' + num + '</a>' + post
+      var officePhoneNumber = $('.ak-target-contact').text().replace(/-/g,'').replace(/\(/,'').replace(/\)/,'').replace(/\s/,'');
+        var link = $('<a />', {class:'phone-link', href:'tel:'+parseInt(officePhoneNumber)});
+        $('.ak-target-contact').wrapInner(link);
       } 
-    );
-    actionkit.context.targets.checkboxes_html = checkboxes;  
+    );  
     original_onTargets();
   };
 });
-*/
+
 
 </script>
 
