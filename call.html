@@ -42,7 +42,10 @@
                 </script>
 
                 {% include "./user_form_wrapper_local.html" %}
-                <div id="submit_contact_info_form"></div>
+                <inputtype="hidden" name="opt_in" value="1" />
+<input type="checkbox" id="id_list_1" name="lists" value="1" checked />
+<label for="id_list_1" style="padding-left:30px;padding-top:0;"> Send me action alerts.</label>
+		    <div id="submit_contact_info_form"></div>
                 <script type="text/ak-template" for="submit_contact_info_form">
                     [% if (incomplete) { %]
                         <button type="submit" class="ak-styled-submit-button">Submit</button>
