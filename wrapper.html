@@ -40,7 +40,7 @@ https://s3.amazonaws.com/fcnlactionkit/images/actionkit.css
     {% end %}
     {% block script_additions %}{% endblock %}
 </head>
-{% if not request.GET.hidewrapper=1 %}
+{% if request.GET.hidewrapper=1 %}{% else %}
 	<body class="{{ filename|split:'.'|nth:0 }}-page lang-{{page.lang.iso_code|default:'unknown'}}{% if page.lang.is_rtl %} ak-rtl{% endif %} ak-no-js">
     <script type="text/javascript">actionkit.forms.initPage()</script>
 
@@ -60,7 +60,7 @@ https://s3.amazonaws.com/fcnlactionkit/images/actionkit.css
 
         {% block content %}{% endblock %}
 
-   {% if not request.GET.hidewrapper=1 %} </div>
+   {% if request.GET.hidewrapper=1 %}{% else %} </div>
     <div class="Action u-section u-overflow">
   <div class="l-padding">
     <div class="l-wrap">
