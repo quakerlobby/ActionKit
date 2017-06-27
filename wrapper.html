@@ -40,9 +40,10 @@ https://s3.amazonaws.com/fcnlactionkit/images/actionkit.css
     {% end %}
     {% block script_additions %}{% endblock %}
 </head>
-<body class="{{ filename|split:'.'|nth:0 }}-page lang-{{page.lang.iso_code|default:'unknown'}}{% if page.lang.is_rtl %} ak-rtl{% endif %} ak-no-js">
-    <script type="text/javascript">actionkit.forms.initPage()</script>
+	<body class="{{ filename|split:'.'|nth:0 }}-page lang-{{page.lang.iso_code|default:'unknown'}}{% if page.lang.is_rtl %} ak-rtl{% endif %} ak-no-js">
 
+    <script type="text/javascript">actionkit.forms.initPage()</script>
+{% if not request.GET.hidewrapper %}
     <div class="Rails">
       <div class="Header">
         <div class="Header-inner">
@@ -56,10 +57,13 @@ https://s3.amazonaws.com/fcnlactionkit/images/actionkit.css
     </div>
 
     <div class="ak-page-container">
+{% endif %}      
 
         {% block content %}{% endblock %}
 
-    </div>
+
+    </div>{% if not request.GET.hidewrapper %}
+
     <div class="Action u-section u-overflow">
   <div class="l-padding">
     <div class="l-wrap">
@@ -172,7 +176,8 @@ https://s3.amazonaws.com/fcnlactionkit/images/actionkit.css
         </div>
       </div>
     </div>
-
+    
+{% endif %}
     {% block below_form %}
     <script type="text/javascript">
         actionkit.forms.contextRoot = '/context/';
