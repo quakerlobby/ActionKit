@@ -219,12 +219,13 @@
                     {% include "./event_invite.html" %}
                 </div>
             {% endif %}
+            
         </div>
     </div>
 <!----------ADDING ONSITE SIGNUPS------------->
-<h2>Onsite Registrants</h2>
-<iframe src="/event/test-event_attend/{{event.id}}?hidewrapper=1&selfredirect=1" border=0 width="100%" height="500px"></iframe>
-<!--- End onsite signups --->
+<h3>Onsite Registrants</h3>
+<iframe src="/event/{{campaign.local_name}}/{{event.id}}?hidewrapper=1&selfredirect=1" style="border:0;width:100%;min-height:400px;"></iframe>
+<!--- End onsite signups --->   
 {% else %}
 
     <div class="ak-grid-row">
