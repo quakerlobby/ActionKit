@@ -41,7 +41,7 @@ https://s3.amazonaws.com/fcnlactionkit/images/actionkit.css
     {% block script_additions %}{% endblock %}
 </head>
 
-{% if request.GET.hidewrapper=1 %}{% else %}
+{% if request.GET.hidewrapper %}{% else %}
 	<body class="{{ filename|split:'.'|nth:0 }}-page lang-{{page.lang.iso_code|default:'unknown'}}{% if page.lang.is_rtl %} ak-rtl{% endif %} ak-no-js">
 
     <script type="text/javascript">actionkit.forms.initPage()</script>
