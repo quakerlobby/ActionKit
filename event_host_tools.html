@@ -219,6 +219,9 @@
                     {% include "./event_invite.html" %}
                 </div>
             {% endif %}
+            <!-- Onsite Signups -->
+           <h3>Onsite Registrants</h3>
+           <iframe src="/event/{{campaign.local_name}}/{{event.id}}?hidewrapper=1&selfredirect=1" style="border:0;width:100%;min-height:400px;"></iframe>
         </div>
     </div>
 
