@@ -23,9 +23,9 @@
         <input type="hidden" name="page" id="id_page" value="{{ page.name }}">
 
         <input type="hidden" name="event_id" value="{{ args.event_id }}">
+{% if request.GET.selfredirect %}<input type="hidden" name="redirect" value="/event/{{campaign.local_name}}/{{event.id}}?hidewrapper=1&selfredirect=1&nr=1&no_akid=1">{% endif %}
 
-
-
+{% if not request.GET.hidewrapper %}
         <div class="ak-grid-row">
 
             <div class="ak-grid-col-10-of-12">
@@ -55,7 +55,7 @@
             </div>
 
         </div>
-
+{% endif %}
 
 
         <div class="ak-grid-row">
@@ -72,11 +72,13 @@
 
                     <!-- If you're embedding this page on your own site, remove everything from here... -->
 
+{% if not request.GET.hidewrapper %}
                     {% with 1 as hide_map %}
 
                     {% include "./event_search_results.html" %}
 
                     {% endwith %}
+{% endif %}
 
                     <!-- ...to here -->
 
@@ -116,11 +118,14 @@
 
 
 
-            <div class="ak-grid-col-6-of-12">
-{% if event.is_in_past %}
+{% if event.is_in_past and not request.GET.hidewrapper %} <div class="ak-grid-col-6-of-12">
 <h3>Sorry, it's too late to sign up for this event.</h3>
-{% else %}
+{% elif request.GET.hidewrapper %}
+<div class="ak-grid-col-12-of-12">
+{% elif not event.is_in_past and not request.GET.hidewrapper %}
+<div class="ak-grid-col-6-of-12">
             		<h3>RSVP to attend this event</h3>
+{% endif %}
 
             	    <div id="event-attend-form" class="ak-errs-below">
 
