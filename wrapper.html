@@ -57,14 +57,14 @@ https://s3.amazonaws.com/fcnlactionkit/images/actionkit.css
         </div>
       </div>
     </div>
-
+{% endif %}
     <div class="ak-page-container">
-      {% endif %}
+      
 
         {% block content %}{% endblock %}
 
 
-   {% if request.GET.hidewrapper=1 %}{% else %} </div>
+    </div>{% if not request.GET.hidewrapper %}
 
     <div class="Action u-section u-overflow">
   <div class="l-padding">
@@ -178,8 +178,8 @@ https://s3.amazonaws.com/fcnlactionkit/images/actionkit.css
         </div>
       </div>
     </div>
-    {% endif %}
-
+    
+{% endif %}
     {% block below_form %}
     <script type="text/javascript">
         actionkit.forms.contextRoot = '/context/';
