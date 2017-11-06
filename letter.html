@@ -46,8 +46,14 @@ label.ak-step-label {
 <form class="ak-form ak-styled-fields" name="act" method="POST" action="/act/" accept-charset="utf-8">
     <input type="hidden" name="page" value="{{ page.name }}">
 
+
     <div class="ak-grid-row">
         <div class="ak-grid-col-8-of-12">
+		<div id="all_fields"></div>
+<script type="text/ak-template" for="all_fields">
+<p><b>Current context:</b></p>
+[%=JSON.stringify(actionkit.context)%]
+</script>
 
             <div id="call-story">
 
