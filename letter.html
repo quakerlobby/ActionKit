@@ -52,7 +52,7 @@ label.ak-step-label {
             <div id="call-story">
 
                 {% autoescape off %}
-                {% include_tmpl form.introduction_text %}
+                {% include_tmpl form.statement_leadin %}
                 {% endautoescape %}
 
             </div>
@@ -121,7 +121,7 @@ label.ak-step-label {
             <div id="target_checkboxes"></div>
 
             <div id="ak-survey_question"></div>
-            {% if form.survey_question_text %}
+            
             <script type="text/ak-template" for="ak-survey_question">
                 [% if (!incomplete) { %]
 					 <h3 id="report-call">
@@ -131,7 +131,7 @@ label.ak-step-label {
                     </h3>
             		<div class="ak-labels-overlaid">
                     	{% autoescape off %}
-                    	<label for="id_action_survey">{% include_tmpl form.survey_question_text %}</label>
+                    	<label for="id_action_survey">How'd it go?</label>
                     	{% endautoescape %}
                 		<textarea id="id_action_survey" name="action_survey"></textarea>
                		 </div>
@@ -139,7 +139,7 @@ label.ak-step-label {
                 [% } %]
             </script>
 
-            {% endif %}
+            
 	 		
         </div>
             </div>
@@ -160,7 +160,7 @@ label.ak-step-label {
 
 
 
-<form class="ak-form" name="act" method="POST" action="/act/" accept-charset="utf-8">
+<!--<form class="ak-form" name="act" method="POST" action="/act/" accept-charset="utf-8">
     <input type="hidden" name="page" value="{{ page.name }}">
 
     <div class="ak-grid-row">
@@ -254,6 +254,6 @@ label.ak-step-label {
 
     </div>
 
-</form>
+</form>-->
 
 {% endblock %}
