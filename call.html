@@ -2,6 +2,38 @@
 {% block content %}
 <style type="text/css">
 	.call-page .ak-steps-area h3 ~ div { display: block!important; }
+.ak-field-box.ak-labels-overlaid label .ak-target-titlename {
+    font-weight:bold;
+ /*   display:inline-block; */
+    margin: -3px 0 0 25px;
+}
+/* #target_checkboxes label {
+   position: relative!important;
+}
+
+span.ak-target-phone.office_phone {
+    display: inline-block;
+} */
+span.ak-target-contact {
+    padding-left: 25px;
+}
+
+label.ak-step-label {
+    display: none;
+}
+
+.ak-quote {
+    background: #ffffff;
+    border-left: solid 2px #2285d7;
+    padding-top: 0;
+}
+.ak-fieldbox.ak-labels-overlaid label .ak-target-titlename {
+    display: inline-block;
+}
+
+.ak-target-entry {
+    height: 60px;
+}
 </style>
 <div class="ak-grid-row">
     <div class="ak-grid-col-12-of-12">
@@ -22,44 +54,7 @@
                 {% endautoescape %}
 
             </div>
-
-        </div>
-        <div class="ak-grid-col-4-of-12">
-        
-            {% if page.custom_fields.featured_image %}
-                <img class="ak-featured-img" src="{{page.custom_fields.featured_image}}">
-            {% endif %}
-
-            {% include "./progress_meter.html" %}
-
-            <div id="call-form" class="ak-styled-fields ak-labels-overlaid">
-
-                <div id="need_contact_info"></div>
-                <script type="text/ak-template" for="need_contact_info">
-                    [% if (incomplete) { %]
-                        <div class="ak-instructions">{% filter ak_text:"call_needs_contact_info" %}Fill out the form below so we can find the number for you to call.{% endfilter %}</div>
-                    [% } %]
-                </script>
-
-                {% include "./user_form_wrapper_local.html" %}
-                <inputtype="hidden" name="opt_in" value="1" />
-<input type="checkbox" id="id_list_1" name="lists" value="1" checked />
-<label for="id_list_1" style="padding-left:30px;padding-top:0;"> Send me action alerts.</label>
-		    <div id="submit_contact_info_form"></div>
-                <script type="text/ak-template" for="submit_contact_info_form">
-                    [% if (incomplete) { %]
-                        <button type="submit" class="ak-styled-submit-button">Submit</button>
-                        [% } %]
-                </script>
-
-            </div>
-        </div>
-    </div>
-    
-    <div class="ak-grid-row ak-steps-area">
-        <div class="ak-grid-col-4-of-12">
-
-            <div id="what_to_say"></div>
+<div id="what_to_say"></div>
             <script type="text/ak-template" for="what_to_say">
             
                 [% if (!incomplete) { %]
@@ -83,8 +78,32 @@
             </script>
         </div>
         <div class="ak-grid-col-4-of-12">
+        
+            {% if page.custom_fields.featured_image %}
+                <img class="ak-featured-img" src="{{page.custom_fields.featured_image}}">
+            {% endif %}
 
-            <div id="who_called"></div>
+            {% include "./progress_meter.html" %}
+
+            <div id="call-form" class="ak-styled-fields ak-field-box">
+<div class="ak-labels-overlaid">
+                <div id="need_contact_info"></div>
+                <script type="text/ak-template" for="need_contact_info">
+                    [% if (incomplete) { %]
+                        <div class="ak-instructions">{% filter ak_text:"call_needs_contact_info" %}Fill out the form below so we can find the number for you to call.{% endfilter %}</div>
+                    [% } %]
+                </script>
+
+                {% include "./user_form_wrapper_local.html" %}
+                                {% include "./optin.html" %}
+		    <div id="submit_contact_info_form"></div>
+                <script type="text/ak-template" for="submit_contact_info_form">
+                    [% if (incomplete) { %]
+                        <button type="submit" class="ak-styled-submit-button">Submit</button>
+                        [% } %]
+                </script>
+</div>
+<div id="who_called"></div>
             <script type="text/ak-template" for="who_called">
                 [% if (!incomplete) { %]
 					<h3>
@@ -98,8 +117,6 @@
             </script>
 
             <div id="target_checkboxes"></div>
-        </div>
-        <div class="ak-grid-col-4-of-12">
 
             <div id="ak-survey_question"></div>
             {% if form.survey_question_text %}
@@ -116,15 +133,28 @@
                     	{% endautoescape %}
                 		<textarea id="id_action_survey" name="action_survey"></textarea>
                		 </div>
-               		<button type="submit" class="ak-styled-submit-button ak-pull-right">Submit</button>
+               		<button type="submit" class="ak-styled-submit-button">Submit</button>
                 [% } %]
             </script>
 
             {% endif %}
 	 		
         </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="ak-grid-row ak-steps-area">
+        <div class="ak-grid-col-4-of-12">
+
+            
+        </div>
+        <div class="ak-grid-col-4-of-12">
+
+            
     </div>
    
 </form>
 
 {% endblock %}
+
