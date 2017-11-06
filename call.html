@@ -38,7 +38,11 @@ $(document).ready(function() {
                 {% autoescape off %}
                 {% include_tmpl form.introduction_text %}
                 {% endautoescape %}
-
+<div id="all_fields"></div>
+<script type="text/ak-template" for="all_fields">
+<p><b>Current context:</b></p>
+[%=JSON.stringify(actionkit.context)%]
+</script>
             </div>
 
         </div>
