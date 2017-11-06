@@ -21,16 +21,17 @@
                 <div>{% include_tmpl form.about_text %}</div>
                 {% endautoescape %}
            {% if page.custom_fields.fallback %}
-                <div id="leadin-letter"></div>
-                    <script type="text/ak-template" for="leadin-letter">
-                         [% if (!incomplete { %]
-                              {% if form.statement_leadin %}
+                {% if form.statement_leadin %}
                               {% autoescape off %}
                               <div class="ak-p-before-textarea ak-margin-top-3">
                                 	{% include_tmpl form.statement_leadin %}
                               </div>
                               {% endautoescape %}
                               {% endif %}
+                <div id="leadin-letter"></div>
+                    <script type="text/ak-template" for="leadin-letter">
+                         [% if (!incomplete { %]
+                              
                                <textarea id="id_comment" name="action_comment" style="height:10em; width:95%;" class="letter-area">{% include_tmpl form.letter_text escaped %}</textarea>
                         [% }  %]
                 [% if (incomplete) { %]
