@@ -85,25 +85,15 @@
                 </div>
 
                 <script type="text/javascript">
-
                     var have_events = $('#id_have_events').val(); 
-
                     if ( ! have_events ) {
-
                         var args = actionkit.utils.getArgs();
-
                         actionkit.forms.eventSearch(null, {
-
                             event_id: args.event_id, 
-
                             zip: args.zip, 
-
                             page: $('#id_page').val()
-
                         });
-
                     }
-
                 </script>
 
 
@@ -150,9 +140,7 @@
 
 
                             <script type="text/javascript">
-
                             $('#user-info input[name=email]').attr('disabled','disabled');
-
                             </script>
 
                             <!-- If they want to "update email", they should do a new signup instead. -->
@@ -161,7 +149,7 @@
 
                         </div>
 
-                        
+                        {% endif %}
 
 
 
@@ -199,10 +187,10 @@
 
                     {% endif %}
 
+{% if request.GET.hidewrapper %}<input type="hidden" name="action_attended" value="1">{% endif %}
 
+                    <button type="submit" class="ak-styled-submit-button" id="signup-button" {% if request.GET.selfredirect %}onclick="parent.location.reload(true);console.log('done');"{% endif %}>{% if update %}Update signup{% else %}Sign up for event{% endif %}</button>
 
-                    <button type="submit" class="ak-styled-submit-button">{% if update %}Update signup{% else %}Sign up for event{% endif %}</button>
-{% endif %}
                 </div><!--event-attend-form-->
 
                 
