@@ -45,7 +45,7 @@
                     {% endfor %}
                 {% endautoescape %}
 
-                <button type="submit" class="ak-styled-submit-button">Submit</button>
+                <button type="submit" class="ak-styled-submit-button">{% if page.custom_fields.button_text %}{{ page.custom_fields.button_text }}{% else %}Send Letter{% endif %}</button>
             </div>
         </div>
 
