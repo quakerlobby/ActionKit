@@ -48,9 +48,8 @@
                 {% include "./user_form_wrapper.html" %}
 
                 {% include "./inline_tellafriend.html" %}
-<inputtype="hidden" name="opt_in" value="1" />
-<input type="checkbox" id="id_list_1" name="lists" value="1" checked />
-<label for="id_list_1" style="padding-left:30px;padding-top:0;"> Send me action alerts.</label>
+                {% include "./optin.html" %}
+                {% include "./sendcopy.html" %}
 
                 <button type="submit" class="ak-styled-submit-button">{% if page.custom_fields.button_text %}{{ page.custom_fields.button_text }}{% else %}Send Letter{% endif %}</button>
 
